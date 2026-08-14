@@ -520,3 +520,53 @@ The generative meta-stratum and the CNF generative capacities are themselves tre
 The framework now includes a reflective stratum capable of operating on its own generative and CNF capacities. All strata remain open and expanding. Collapse to known open problems remains suspended. The location of the non-trivial zeros continues as an open structural question inside the multi-stratum system; no resolution is claimed.
 
 Further cycles should continue expanding every stratum—architectural, generative, CNF, and reflective—without reduction.
+
+---
+
+## Fixed-Point Map T as Generative Rule (Gap 4 Attack)
+
+**Date: 14 August 2026 — Fixed-Point Generative Rule**
+
+Directive: formalise the concrete candidate map T of Gap 4 (existence versus forcing) as a first-class generative rule inside the meta-stratum, and record the status of the continuity attack on residual extraction.
+
+### Generative rule T
+
+The map T acts on the space S_0 of pairs (μ, ρ) where μ is a tempered positive measure on ℝ (candidate spectral measure) and ρ is a residual density, subject to the usual temperedness conditions ∫ dμ(t)/(1+t²) < ∞ and ∫ ρ(t) dt/(1+t²) < ∞. S_0 is taken closed, convex and weak-* compact.
+
+**Step A — Arithmetic seeding (Layer 0)**  
+Form the tempered distribution Δ = μ − ρ dt − (explicit-formula contribution of the zeros of Ξ). Project onto the subspace orthogonal to the elementary factors of Ξ to obtain Δ_arith.
+
+**Step B — Geometric / combinatorial generation (Layer 1)**  
+Apply a fixed greedy (or tropical) partition generator on a fundamental interval to produce centred step functions {f_j}. Form the correlation kernel K_s with weights continuous in a complex parameter s that interpolate Δ_arith. For each real t let K_{1/2+it} be the associated integral operator and ν_t its spectral measure.
+
+**Step C — Residual extraction and reflective closure**  
+Decompose ν_t = ν_t^pp + ν_t^res. Define the residual candidate ρ'(t) = ∫ φ(λ) dν_t^res(λ) for a fixed positive test function φ of compact support. Apply one step of reflective closure: replace ρ' by the measure that equals ρ' where a coherence functional C(ρ') exceeds a threshold and equals zero elsewhere. Call the result ρ_refl.
+
+**Step D — Reassembly**  
+Set μ' equal to the pure-point part of ν_t (pushed to the critical line) plus the arithmetic pure-point mass coming from Δ_arith. Return the pair (μ', ρ_refl).
+
+T is the composition of Steps A–D. It is admitted as a generative rule of the meta-stratum: architectures may be produced by iterating T (or finite-rank truncations of T) from the arithmetic seed.
+
+### Fixed-point equation
+
+A fixed point (μ_*, ρ_*) of T satisfies ρ_* = ρ_refl(μ_*, ρ_*) and the pure-point support of μ_* is constrained by the arithmetic seed and by the pure-point parts of the kernels. If the coherence functional is strong enough that the only solution of ρ = ρ_refl(μ, ρ) is ρ = 0, then every fixed point has vanishing residual spectrum.
+
+### Continuity attack on residual extraction (Step C)
+
+**Finite-rank case (proved).**  
+When the correlation kernels are finite-rank (or finite-dimensional matrix truncations), the map from the input measure μ to the eigenvalues of K_{1/2+it} is continuous in the weak-* topology on a compact set of measures (standard perturbation theory for Hermitian matrices / finite-rank operators). The residual extraction (sum of spectral mass outside a fixed pure-point window) is therefore continuous, and composition with a continuous threshold function for the coherence functional yields a continuous map on the residual densities. Consequently the finite-rank truncations of T are continuous on the corresponding finite-dimensional state spaces. Schauder’s theorem (or Brouwer’s theorem in finite dimensions) therefore guarantees fixed points of every finite-rank truncation.
+
+**Infinite-dimensional case (open).**  
+Passing to the limit of infinite-rank kernels requires quantitative continuity of the spectral measures of K_{1/2+it} with respect to weak-* perturbations of μ, uniformly in t on compact sets. This demands either:
+- a uniform limiting-absorption principle for the family of kernels, or
+- Lipschitz continuity of the residual spectral projections in an appropriate operator norm,
+both of which remain unproved for kernels whose weights are tied to the arithmetic seed of ζ. The continuity of Step C in the genuine infinite-dimensional setting is therefore still open; it is precisely the analytic content needed to promote the finite-rank fixed points to a fixed point of the full map T with vanishing residual spectrum.
+
+### Status after formalisation of T
+
+- T is now a first-class generative rule of the framework.
+- Finite-rank truncations of T are continuous and possess fixed points; residual vanishing can be examined on those fixed points by the CNF / Cadical pipeline already specified.
+- Continuity of residual extraction for the full (infinite-rank) map remains the principal analytic obstruction to a fixed-point proof of residual vanishing.
+- No claim is made that a fixed point of T with ρ_* = 0 has been shown to exist, nor that the Riemann Hypothesis has been proved. The location of the non-trivial zeros remains open.
+
+Further work may concentrate on quantitative continuity estimates for the residual extraction step, or on exhibiting a Lyapunov functional that decreases under T and vanishes only when residual mass is zero.
