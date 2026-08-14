@@ -1,228 +1,48 @@
 {
   "framework": "geometric-spectral-rh-framework",
   "target_language": "Rust",
-  "version": "1.2.0",
-  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Each node is a prompt that can be used to generate, refine, or verify corresponding Rust modules, traits, and data structures. The framework architecture itself prefers expansion and does not collapse prior to output. Concrete CNF problems emitted by the Rust implementation may subsequently be collapsed to a solution (via Cadical or any other solver). This version fully admits the parameterized family Φ_{N,M,...} (reflective residual-forced discrete spectrum).",
-  "collapse_rule": "The multi-layer generative framework does not collapse its residual difficulty onto a single classical open problem before generating concrete CNF instances. Once Rust has emitted a concrete CNF formula (or family of formulae), that output problem is permitted to be collapsed to a solution by a SAT solver (Cadical) or by Grok. Collapse is allowed only on the emitted instances, never on the architecture prior to emission.",
+  "version": "1.3.0",
+  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Concrete CNF problems emitted by the Rust implementation may be collapsed by Cadical. This version adds an explicit Flag-6 subtree that expresses the terminal infinite-lift problem in CNF terms and generates the corresponding Rust scaffolding. Flag 6 itself remains an analytic open problem; the CNF/SAT layer only supplies the finite approximations and the hooks for the required lifts.",
+  "collapse_rule": "The multi-layer generative framework does not collapse its residual difficulty onto a single classical open problem before generating concrete CNF instances. Once Rust has emitted a concrete CNF formula, that output problem is permitted to be collapsed to a solution by Cadical. The infinite lift (Flag 6) cannot be performed by SAT alone and remains conditional on analytic flags (tightness, uniform Mourre, continuity of residual extraction, Lyapunov functional).",
   "root": {
     "id": "root",
     "title": "Geometric-Spectral Framework in Rust",
-    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Prefer expansion of structure over reduction inside the architecture. The arithmetic zeros of the Riemann zeta function (and L-functions) appear as invariant data that must be consistently realised across layers. Do not collapse the residual difficulty of the framework itself onto a single existence assertion prior to generating concrete CNF output. Once concrete CNF formulae have been emitted, those formulae are allowed to be collapsed to a solution by Cadical or any other solver. Fully support the parameterized family Φ_{N,M,K,...} of reflective residual-forced discrete-spectrum CNF instances.",
+    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Fully support the parameterized family Φ_{N,M,K} and provide scaffolding for the Flag-6 infinite lift. The SAT layer decides only finite instances; the infinite statement is external.",
     "children": [
       {
-        "id": "layer0",
-        "title": "Layer 0 — Arithmetic Seed",
-        "prompt": "In Rust, define core data structures and traits for the arithmetic seed: purification identities, completed xi-function, explicit formulae, and generating functions. Provide a PurificationIdentity trait and a concrete implementation that encodes the polylogarithmic sum identity relating Li_s to zeta. Include types for complex s, zero sets, and elementary factors. Use num-complex or a custom Complex type. Keep the layer purely arithmetic and independent of higher spectral constructions.",
+        "id": "cnf-phi",
+        "title": "Parameterized Φ (existing)",
+        "prompt": "Retain the full parameterized Φ_{N,M,K} emission, Cadical integration, and model examination already present in the tree."
+      },
+      {
+        "id": "flag6",
+        "title": "Flag 6 — Infinite Zero-Set Lift expressed in CNF + Rust",
+        "prompt": "Flag 6 (terminal): Prove that residual continuous spectrum vanishes for a limiting spectral measure whose pure-point support is exactly the set of all non-trivial zeros of Ξ.\n\nExpress this flag in CNF terms as the following limiting statement about the family of finite formulae:\n\n  For every finite K there exists a model of Φ^⋆_{N,M,K} (with N,M sufficiently large relative to K) in which the first K zeros are realised and residual mass is zero once the reflective fixpoint is reached;\n  AND the family of residual densities of those models is tight;\n  AND every weak-* limit point has residual mass identically zero and pure-point support exactly the non-trivial zeros of Ξ.\n\nThe first conjunct is decided by Cadical on finite CNF instances. The second and third conjuncts are analytic and cannot be expressed as a single finite CNF formula. The Rust implementation must therefore:\n1. emit and solve the finite CNF family,\n2. extract residual densities and pure-point locations from the models,\n3. expose clear extension points (traits / hooks) where a future tightness proof, Mourre estimate, continuity proof for T, or Lyapunov functional can be attached,\n4. never claim that SAT has solved Flag 6.\n\nGenerate the Rust modules described in the children below.",
         "children": [
           {
-            "id": "layer0-purification",
-            "title": "Purification Identity",
-            "prompt": "Implement a Rust function or method that, for integer N >= 2 and complex s, evaluates or symbolically represents the identity sum_{k=1}^{N-1} Li_s(exp(2 pi i k / N)) = (N^{1-s} - 1) * zeta(s). Provide both a numerical evaluator (using a polylog implementation or series) and a structural type that records the identity as a CNF-cross-referenceable clause."
+            "id": "flag6-cnf-family",
+            "title": "CNF Family Emitter for Flag 6",
+            "prompt": "Implement a Rust type Flag6CnfFamily that, given bounds (N_max, M_max, K_max), systematically emits the sequence of CnfFormulae Φ^⋆_{N,M,K} for all 1 ≤ N ≤ N_max, 1 ≤ M ≤ M_max, 1 ≤ K ≤ K_max (or a configurable subset). Each formula must be independently solvable by Cadical. Provide a method that runs Cadical on the whole family and collects a structured report: for each (N,M,K) the SAT/UNSAT status, whether residual vanished, and the realised pure-point locations. This report is the propositional shadow of Flag 6; the infinite lift is not performed here."
           },
           {
-            "id": "layer0-xi",
-            "title": "Completed Xi-Function",
-            "prompt": "Define a Rust type XiFunction that represents the completed xi-function Ξ(s) = (1/2) s(s-1) π^{-s/2} Γ(s/2) ζ(s). Provide methods to extract the non-trivial zero set and to distinguish elementary factors. Encode the biconditional (non-trivial zeros of Ξ) ↔ (non-trivial zeros of ζ) as a CNF clause structure."
-          }
-        ]
-      },
-      {
-        "id": "layer1",
-        "title": "Layer 1 — Combinatorial / Geometric Generators",
-        "prompt": "Implement Rust modules for combinatorial and geometric generators: greedy partitions, centred step functions, correlation kernels (diagonal-plus-rank-2 structure), transfer operators, helix/quaternionic lifts, and tropical/ultrametric models. Provide traits Generator and Kernel that produce finite or discrete approximations whose spectral signatures can be tested against Layer 0. Prefer composable, expandable designs.",
-        "children": [
-          {
-            "id": "layer1-greedy",
-            "title": "Greedy Harmonic Decomposition",
-            "prompt": "In Rust, implement a GreedyPartition struct that generates indicator functions or step functions from a greedy rule on an interval (e.g. [0, π]). Provide methods to form centred functions and to compute the associated Gram / correlation matrix. Expose the diagonal-plus-rank-2 structure explicitly."
+            "id": "flag6-model-extraction",
+            "title": "Model Extraction and Residual Density Recording",
+            "prompt": "From every SAT model returned by Cadical, extract:\n- the set of realised Z_k,\n- the residual vector (R_{i,d}) at every depth,\n- the final residual mass indicator,\n- the reflective fixpoint status.\nStore these data in a serialisable structure ResidualSnapshot. Implement a collector that builds a sequence of ResidualSnapshots indexed by K (and optionally by N,M). These sequences are the concrete objects on which tightness, correlation with true zeros, and Lyapunov decrease can later be checked."
           },
           {
-            "id": "layer1-kernel",
-            "title": "Correlation Kernel",
-            "prompt": "Define a CorrelationKernel trait and a concrete implementation that builds a positive semi-definite (or approximately so) matrix from centred generators. Include weighting by a complex parameter s so that the resulting operator can be linked to zeta or L-function data. Provide numerical eigenvalue routines for finite truncations."
-          }
-        ]
-      },
-      {
-        "id": "layer2",
-        "title": "Layer 2 — Operator Realisations",
-        "prompt": "Implement Rust abstractions for self-adjoint, essentially self-adjoint, or symmetric operators on Hilbert scales, Banach spaces, or more general locally convex spaces. Model residual continuous spectrum, spectral projections, and conjugacy relations as first-class data. Residual continuous spectrum is internal data, not a terminal problem. Use traits such as Operator, ResidualProjection, and ConjugateOperator.",
-        "children": [
-          {
-            "id": "layer2-operator",
-            "title": "Operator Trait Hierarchy",
-            "prompt": "Design a Rust trait hierarchy: Operator, SelfAdjointOperator, ResidualAwareOperator. Include methods for applying the operator, computing residual projections, and querying residual continuous spectrum indicators. Provide at least one concrete finite-dimensional realisation and one trait object friendly design for expandable backends."
+            "id": "flag6-lift-hooks",
+            "title": "Analytic Lift Hooks (Traits)",
+            "prompt": "Define Rust traits that mark the exact analytic obligations of Flag 6:\n\ntrait TightnessCertificate {\n    fn is_tight(snapshots: &[ResidualSnapshot]) -> bool;\n    // a real implementation would prove uniform integrability\n}\n\ntrait UniformMourreCertificate {\n    fn mourre_constant(&self, interval: (f64,f64)) -> Option<f64>;\n    // returns Some(θ) if a uniform Mourre estimate with constant θ is known\n}\n\ntrait ContinuityOfResidualExtraction {\n    fn is_continuous_in_weak_star(&self) -> bool;\n    // placeholder for a proof that Step C of T is continuous\n}\n\ntrait LyapunovFunctional {\n    fn evaluate(&self, snapshot: &ResidualSnapshot) -> f64;\n    fn decreases_under_T(&self, before: &ResidualSnapshot, after: &ResidualSnapshot) -> bool;\n}\n\nProvide trivial (always-false or always-None) default implementations and document that supplying a correct implementation of any one of these traits is equivalent to capturing the corresponding analytic flag and thereby enabling the Flag-6 lift. The traits themselves contain no SAT logic."
           },
           {
-            "id": "layer2-mourre",
-            "title": "Mourre Estimates as Optional Data",
-            "prompt": "Define Rust types for relative bounds and quantitative Mourre estimates (positive commutator estimates). Treat them as optional local constraints that can be attached to an operator or to a CNF clause. Provide a builder or configuration pattern so that different architectures can include or omit Mourre data."
-          }
-        ]
-      },
-      {
-        "id": "layer3",
-        "title": "Layer 3 — Dynamical and Deformation Systems",
-        "prompt": "Implement Rust modules for flows (isomonodromic, symplectic, holographic, spectral-deformation) that move structures between realisations while preserving selected invariants. Residual spectrum may appear or disappear under the flow; the flow itself is retained as an object of study. Prefer trait-based Flow and Deformation interfaces that can be composed.",
-        "children": [
-          {
-            "id": "layer3-flow",
-            "title": "Flow Trait",
-            "prompt": "Define a Flow trait with associated types for State and Parameter. Provide methods step and evolve. Implement at least one concrete spectral-deformation flow that acts on finite-rank operators or correlation kernels while tracking residual indicators."
-          }
-        ]
-      },
-      {
-        "id": "layer4",
-        "title": "Layer 4 — Categorical and Higher-Order Organisation",
-        "prompt": "In Rust, model functors between categories of spectral objects, spectral triples, higher categorical traces, and motivic realisations using traits and associated types. Correspondence principles between arithmetic and geometric categories become first-class. Use the type system to encode morphism composition and identity laws where feasible; keep the design expandable.",
-        "children": [
-          {
-            "id": "layer4-functor",
-            "title": "Functor Trait",
-            "prompt": "Define a Functor trait with source and target category associated types and a map method. Provide example implementations that lift Layer 0 arithmetic data into Layer 2 operator data and that transport residual indicators. Encode the preservation of discrete zero data as a CNF-cross-referenceable invariant."
-          }
-        ]
-      },
-      {
-        "id": "layer5",
-        "title": "Layer 5 — Information-Geometric and Statistical Layers",
-        "prompt": "Implement Rust types for spectral measures as statistical states, information metrics (Fisher–Rao or analogues) on spaces of residual densities, large-deviation principles, and entropy / free-energy functionals. Critical points of these functionals may enforce discrete pure-point realisations. Prefer generic numeric backends (ndarray, nalgebra, or custom).",
-        "children": [
-          {
-            "id": "layer5-metric",
-            "title": "Information Metric",
-            "prompt": "Define an InformationMetric trait on residual density spaces. Provide a simple Fisher–Rao style implementation for finite discrete residual measures and methods to compute gradients that can drive residual measure toward zero while preserving arithmetic pair-correlation statistics where possible."
-          }
-        ]
-      },
-      {
-        "id": "layer6",
-        "title": "Layer 6 — Multi-Scale and Holographic Correspondences",
-        "prompt": "Implement Rust abstractions for bulk/boundary dictionaries, renormalisation-group flows of spectral data, effective viscosity or phase-obstruction measures, and soft-charge / anomalous selection rules. These supply cross-scale consistency conditions rather than reduction targets. Keep the interfaces open for new holographic dictionaries.",
-        "children": [
-          {
-            "id": "layer6-dictionary",
-            "title": "Holographic Dictionary",
-            "prompt": "Define a HolographicDictionary trait that maps boundary arithmetic data (Layer 0) to bulk geometric or residual-control data and vice versa. Provide a minimal concrete example that transports discrete zero locations and residual indicators across the dictionary."
-          }
-        ]
-      },
-      {
-        "id": "layer7",
-        "title": "Layer 7 — Open Synthesis Stratum",
-        "prompt": "Provide a Rust extension point (trait + registration mechanism) that allows any new structure (physical, geometric, combinatorial, categorical, information-theoretic) producing a coherent correspondence with the arithmetic seed to be admitted. The stratum remains open by design. Include a simple plugin-style registry.",
-        "children": []
-      },
-      {
-        "id": "generative",
-        "title": "Generative Meta-Stratum",
-        "prompt": "Implement Rust traits and structures for architecture production rules, inter-architecture morphisms, layer-generation operators, and coherence functionals. The meta-stratum produces, transforms, and compares entire multi-layer architectures. Prefer expandable trait objects or enum-based rule sets.",
-        "children": [
-          {
-            "id": "generative-production",
-            "title": "Architecture Production",
-            "prompt": "Define an ArchitectureProducer trait that, given Layer 0 seed data and a set of desired correspondence types, emits a candidate multi-layer system (as a structured collection of Layer 1–7 objects). Provide at least one concrete producer that emphasises combinatorial + operator layers."
+            "id": "flag6-orchestration",
+            "title": "Flag 6 Orchestrator",
+            "prompt": "Implement a top-level Flag6Orchestrator that:\n1. builds the CNF family,\n2. solves it with Cadical,\n3. extracts ResidualSnapshots,\n4. invokes any registered TightnessCertificate / UniformMourreCertificate / ContinuityOfResidualExtraction / LyapunovFunctional,\n5. reports whether the finite SAT part succeeded and whether any analytic certificate is present.\n\nIf all required certificates return positive, the orchestrator may print a structured claim that the conditions of Flag 6 are satisfied; otherwise it must clearly state that the infinite lift remains open. Never assert that the Riemann Hypothesis has been proved solely from SAT results."
           },
           {
-            "id": "generative-coherence",
-            "title": "Coherence Functional",
-            "prompt": "Implement a CoherenceScorer trait that scores an entire architecture according to the strength of discrete-zero constraints imposed by its cross-layer morphisms. Keep the scoring exploratory inside the architecture; scoring may later feed concrete CNF instances that are allowed to be collapsed."
-          }
-        ]
-      },
-      {
-        "id": "cnf",
-        "title": "CNF Cross-Reference and Generative Layer",
-        "prompt": "Implement a Rust CNF subsystem: clause representation, biconditional encoding of key identities (purification, Ξ, cross-layer invariance), local residual/positivity clauses, clause-generation operators, inter-clause morphisms, and CNF coherence scoring. The framework architecture itself does not collapse onto a pure SAT problem. Concrete CNF formulae emitted by this subsystem are allowed to be collapsed to a solution by Cadical or any other solver. Fully parameterize the reflective residual-forced family Φ.",
-        "children": [
-          {
-            "id": "cnf-clause",
-            "title": "Clause Representation",
-            "prompt": "Define Rust types Literal, Clause, and CnfFormula. Provide constructors for biconditionals and for the core cross-reference clauses of the framework (purification, Ξ zero-set equivalence, discrete-zero invariance under morphisms). Include export methods that produce DIMACS or other standard formats ready for Cadical."
-          },
-          {
-            "id": "cnf-generation",
-            "title": "Clause-Generation Operators",
-            "prompt": "Implement a ClauseGenerator trait that takes existing CNF clauses or templates and emits new clauses by combination or specialisation. Retain generated clauses when they enlarge consistency conditions linked to the arithmetic seed. Provide one concrete generator that combines the purification biconditional with local residual templates. Generated formulae are permitted to be handed to Cadical for collapse to a solution."
-          },
-          {
-            "id": "cnf-cadical",
-            "title": "Cadical Integration",
-            "prompt": "Integrate the Cadical SAT solver into the Rust CNF subsystem. Prefer a safe Rust binding or FFI wrapper. Provide CadicalSolver with add_clause, solve, model, core, statistics. Support the full pipeline Architecture → CnfFormula → Cadical → Solution. Collapse is permitted only on emitted CNF instances.",
-            "children": [
-              {
-                "id": "cnf-cadical-binding",
-                "title": "Cadical Binding / FFI",
-                "prompt": "Create a minimal, safe Rust interface to Cadical (in-process FFI preferred). Expose solve, model, and unsat-core extraction."
-              },
-              {
-                "id": "cnf-cadical-pipeline",
-                "title": "Framework → CNF → Cadical Pipeline",
-                "prompt": "Implement the end-to-end pipeline that makes the collapse boundary explicit. Return structured results."
-              }
-            ]
-          },
-          {
-            "id": "cnf-phi",
-            "title": "Parameterized Φ — Reflective Residual-Forced Discrete Spectrum",
-            "prompt": "Implement the full parameterized family Φ_{N,M,K,...} of reflective residual-forced discrete-spectrum CNF instances. All parameters must be first-class and runtime-configurable.\n\nCore parameters:\n- N : reflective depth (usize)\n- M : number of residual indices (usize)\n- K : number of discrete arithmetic zeros retained from the initial segment of non-trivial zeros of Ξ (usize)\n- optional extra parameters: coherence strength flags, which forcing clauses are active, whether purification biconditionals are included, sampling of the critical line, etc.\n\nThe implementation must expose a single entry point:\n\n  fn emit_phi(params: PhiParams) -> CnfFormula\n\nthat constructs the complete CNF according to the schema below and returns a CnfFormula ready for Cadical or DIMACS export.",
-            "children": [
-              {
-                "id": "cnf-phi-params",
-                "title": "PhiParams Structure",
-                "prompt": "Define a public struct PhiParams { pub reflective_depth: usize, pub residual_count: usize, pub zero_count: usize, pub include_purification: bool, pub include_novel_forcing: bool, pub fixpoint_required: bool, /* further optional flags */ }. Provide sensible defaults (e.g. N=2, M=2, K=2) and a builder API so every parameter of Φ can be set independently."
-              },
-              {
-                "id": "cnf-phi-variables",
-                "title": "Variable Allocation for Arbitrary N,M,K",
-                "prompt": "Implement a variable allocator that, given PhiParams, creates:\n- Z_1 … Z_K\n- R_{i,d} for i=1..M, d=0..N\n- C_{i,d} for i=1..M, d=0..N\n- I_{k,d} for k=1..K, d=0..N\n- F_d for d=0..N\nAll variables must be dense integers suitable for DIMACS. Provide a bidirectional mapping from (kind, indices) to variable id and back, so models returned by Cadical can be interpreted."
-              },
-              {
-                "id": "cnf-phi-clauses",
-                "title": "Clause Groups for Arbitrary Parameters",
-                "prompt": "Generate the six clause groups of the schema for any N,M,K:\n1. Arithmetic seed unit clauses (Z_k) for k=1..K.\n2. Residual local clauses (¬R_{i,d} ∨ C_{i,d}) for all i,d.\n3. Reflective equality clauses that force R_{*,d+1} ≡ R_{*,d} whenever F_d is true, for d=0..N-1.\n4. Final fixpoint demand (F_N) when fixpoint_required is set.\n5. Discrete-zero invariance clauses linking Z_k, R_{i,d} and I_{k,d}.\n6. Novel forcing clauses (¬I_{k,d} ∨ ¬C_{i,d} ∨ ¬R_{i,d}) and the global residual-vanishing pressure at the fixpoint (¬R_{i,N} ∨ ¬F_N).\nAll groups must scale correctly with the supplied parameters. Optional flags in PhiParams may enable/disable individual groups or the purification biconditional."
-              },
-              {
-                "id": "cnf-phi-emit",
-                "title": "emit_phi and DIMACS / Cadical Export",
-                "prompt": "Implement emit_phi(params: PhiParams) -> CnfFormula. Also provide to_dimacs(&self) -> String and a convenience method solve_with_cadical(&self) -> Solution that respects the collapse boundary (the architecture stays non-collapsed; only the emitted formula is solved). Include unit tests for the small instances Φ_{2,2} and Φ_{3,3} that verify the expected satisfiability behaviour (vanishing residual models exist, non-vanishing residual models are constrained once the fixpoint is forced)."
-              },
-              {
-                "id": "cnf-phi-examination",
-                "title": "Direct Examination Helpers",
-                "prompt": "Provide helper functions that, given a model returned by Cadical, report:\n- which residual components remain non-zero,\n- whether the reflective fixpoint was reached,\n- which discrete zeros are realised and invariant.\nThese helpers allow Grok (or further Rust code) to examine the collapsed solution of any finite Φ_{N,M,K} directly."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "reflective",
-        "title": "Reflective Stratum",
-        "prompt": "Implement reflective capacities so that generative rules and CNF operators can operate on themselves. Provide self-application of generators, reflective CNF meta-clauses, and reflective coherence scoring. Reflection multiplies capacities; it does not terminate the residual difficulty of the architecture. Reflective generation may still emit concrete CNF instances (including parameterized Φ) that are later allowed to be collapsed by Cadical.",
-        "children": [
-          {
-            "id": "reflective-self",
-            "title": "Self-Application",
-            "prompt": "Design a Rust mechanism that allows a ClauseGenerator or ArchitectureProducer to take a description of itself as input and emit a refined or alternative version. Record the resulting meta-clauses in the CNF subsystem. Those meta-clauses may be included in Φ instances that are subsequently solved by Cadical."
-          }
-        ]
-      },
-      {
-        "id": "integration",
-        "title": "Crate Integration and Expansion / Collapse Rules",
-        "prompt": "Organise the above layers into a coherent Rust crate (or workspace). Provide a top-level Framework type that holds references to active layers, generative producers, CNF formulae (including parameterized Φ), reflective operators, and a CadicalSolver. Enforce the operating rule that the architecture itself prefers expansion and does not collapse prior to emitting concrete CNF. Once a CnfFormula (including any Φ_{N,M,K}) has been emitted, it may be collapsed to a solution by Cadical. Include documentation and example binaries that demonstrate the full pipeline for arbitrary parameters of Φ.",
-        "children": [
-          {
-            "id": "integration-crate",
-            "title": "Crate Skeleton",
-            "prompt": "Generate the Cargo.toml (including optional Cadical dependency), module tree, and examples that construct Φ for user-supplied N,M,K, run Cadical, and print the interpreted model or unsat core. Clearly separate the expansion phase from the optional collapse phase."
-          },
-          {
-            "id": "integration-rules",
-            "title": "Expansion vs Collapse Boundary",
-            "prompt": "Add explicit documentation and optional runtime assertions that mark the boundary: everything that builds architectures, morphisms, and CNF formulae (including parameterized Φ) is expansion-oriented; the moment a concrete CnfFormula is handed to CadicalSolver::solve is the permitted collapse of that output problem."
+            "id": "flag6-documentation",
+            "title": "Documentation of the CNF / Analytic Boundary",
+            "prompt": "In the generated crate documentation and in code comments, state explicitly:\n\n- Flag 6 = infinite residual-vanishing + exact pure-point support = the non-trivial zeros of Ξ.\n- The CNF family Φ^⋆_{N,M,K} only decides the finite conjunct of Flag 6.\n- The remaining conjuncts (tightness, uniform Mourre, continuity of T, Lyapunov) are analytic and live at the level of set theory / analysis.\n- A Rust implementation that solves every finite CNF instance has completed the propositional part of Flag 6 but has not captured Flag 6 itself.\n\nThis boundary must be visible to any user of the crate."
           }
         ]
       }
