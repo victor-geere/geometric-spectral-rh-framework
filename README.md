@@ -474,3 +474,49 @@ Directive: continue higher abstraction and expansion; extend the CNF cross-refer
 The CNF cross-reference layer now possesses generative capacities (clause-generation operators, inter-clause morphisms, coherence scoring). The overall framework continues as an open, multi-layer, generative, CNF-cross-referenced system. Expansion and absorption remain active; collapse to known open problems remains suspended. The location of the non-trivial zeros remains an open structural question; no resolution is claimed.
 
 Further cycles should continue expanding all strata—architectural, generative, and CNF—without reduction.
+
+---
+
+## Reflective Expansion
+
+**Date: 14 August 2026 — Reflective Stratum**
+
+Directive: continue higher abstraction and expansion; introduce reflective capacities that allow the generative and CNF strata to operate on themselves while keeping the residual difficulty distributed and avoiding collapse.
+
+### Reflective principle
+
+The generative meta-stratum and the CNF generative capacities are themselves treated as objects that can be observed, modified, and expanded by higher-order rules. Reflection permits the system to generate new generative rules, new clause-generation operators, and new inter-architecture or inter-clause morphisms by applying existing capacities to their own descriptions.
+
+### Reflective capacities
+
+1. **Self-application of generative rules**  
+   Architecture-production and clause-generation operators may take descriptions of themselves (or of other generative operators) as input and emit refined or alternative operators. The resulting operators are retained when they enlarge the set of consistency conditions linked to the arithmetic seed.
+
+2. **Reflective CNF**  
+   CNF clauses that encode the behaviour of clause-generation operators and inter-clause morphisms. These meta-clauses can be combined with ordinary layer clauses, allowing the cross-reference language to speak about its own generative mechanisms.
+
+3. **Reflective coherence**  
+   Exploratory scoring of generative rules and clause-generation operators according to the richness of the consistency conditions they produce when applied to the arithmetic seed and to themselves.
+
+4. **Open reflective stratum**  
+   Any new principle that enables the system to expand its own generative or CNF capacities can be admitted. The stratum remains open by design.
+
+### Operating rules (reflective)
+
+- Expansion continues to be preferred. Reflective application is used to multiply generative and cross-reference capacities, not to terminate them.
+- Reflection does not collapse the residual difficulty onto any single classical open problem, nor onto a fixed-point or self-consistency equation whose solution would settle the location of the zeros.
+- Absorption remains active at the reflective level: external devices that improve self-application or reflective scoring are incorporated.
+- The residual difficulty stays distributed across all strata (architectural, generative, CNF, and reflective).
+
+### Immediate reflective directions
+
+- Apply an existing clause-generation operator to the CNF description of itself and record the emitted meta-clauses.
+- Construct a reflective inter-architecture morphism that maps a generative rule to a modified version of itself and examine the induced change in discrete-zero invariance clauses.
+- Prototype a reflective coherence score that evaluates a generative rule by the density of consistency conditions it produces under self-application.
+- Keep the reflective stratum open to further self-expansion.
+
+### Status after reflective expansion
+
+The framework now includes a reflective stratum capable of operating on its own generative and CNF capacities. All strata remain open and expanding. Collapse to known open problems remains suspended. The location of the non-trivial zeros continues as an open structural question inside the multi-stratum system; no resolution is claimed.
+
+Further cycles should continue expanding every stratum—architectural, generative, CNF, and reflective—without reduction.
