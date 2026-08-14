@@ -600,3 +600,94 @@ Cadical reports that the finite instances Φ^⋆_{N,M,K} (and the corresponding 
 10. For the finite-rank fixed points of the truncations of T, does the coherence functional evaluated on the residual density decrease monotonically with reflective depth inside every Cadical model, or are there oscillations?
 
 These questions are to be answered by further Cadical runs, model extraction, and comparison against the known zeros of Ξ. They remain internal to the finite regime; the analytic lifts to infinity stay open.
+
+---
+
+## Analytic Proof Strategies for Flag 6 (Native Infinity Form)
+
+**Date: 14 August 2026**
+
+Flag 6 (native form) asks for a tempered measure μ on ℝ whose pure-point support is exactly the non-trivial zeros of Ξ and whose absolutely continuous part vanishes. The following analytic strategies could establish existence of such a μ. Infinity is native in each strategy.
+
+### 1. Fixed-point strategy (map T)
+
+**Idea.** Construct μ as a fixed point of the generative map T (arithmetic seeding → geometric kernels → residual extraction + reflective closure → reassembly). If T is continuous on a compact convex set of tempered measures and residual mass is forced to zero at any fixed point, Flag 6 follows.
+
+**Required analytic steps**
+- Continuity of residual extraction (Step C) in the weak-* topology, uniformly on compact energy intervals.
+- A compactness/tightness argument that keeps residual mass from escaping to infinity.
+- A mechanism (coherence functional, threshold, or Lyapunov) that forces residual mass to vanish at every fixed point.
+
+**Status.** Finite-rank truncations are continuous and possess fixed points (proved). Infinite-rank continuity and tightness remain open. Closest strategy to the current geometric-spectral framework.
+
+### 2. Uniform Mourre strategy
+
+**Idea.** Produce a self-adjoint operator H (or a limiting operator obtained from the finite models) whose pure-point spectrum contains the zeros, together with a conjugate operator A satisfying a Mourre estimate
+
+```
+E_H(I) i[H,A] E_H(I) ≥ θ E_H(I) + K
+```
+
+with θ > 0 independent of truncation parameters on every compact interval I. Abstract Mourre theory then implies that residual continuous spectrum is empty.
+
+**Required analytic steps**
+- Construction of H with the correct pure-point data.
+- Construction of A with uniform positive commutator.
+- Control of the compact error terms in the limit.
+
+**Status.** Classical spectral approach to RH. No such pair (H,A) is known. The framework’s geometric generators are candidates for building A, but the estimate itself is missing.
+
+### 3. Lyapunov / monotonicity strategy
+
+**Idea.** Exhibit a functional F on tempered measures that decreases under T (or under a spectral flow) and satisfies F(μ) = 0 if and only if residual mass vanishes. Weak-* lower semi-continuity then forces residual vanishing in the limit of the finite models.
+
+**Candidates**
+- Information-geometric free energies on residual densities.
+- Weil-type quadratic forms evaluated on a sufficiently rich family of test functions.
+- Relative entropy with respect to the explicit-formula measure.
+
+**Status.** No functional is known to be both monotone under the geometric generation steps of the framework and zero only on residual-free measures while remaining compatible with the arithmetic pure-point data.
+
+### 4. Weil positivity strategy
+
+**Idea.** Show that a sufficiently rich family of Weil quadratic forms is positive. Classical implications then force all non-trivial zeros onto the critical line (and, in spectral realisations, residual continuum to vanish).
+
+**Status.** Verified for many test functions; not known for a family large enough to conclude RH. Can be used as a certificate inside the framework if a link between Weil positivity and residual vanishing for the measures produced by T is established.
+
+### 5. Hilbert–Pólya operator strategy
+
+**Idea.** Directly construct a self-adjoint operator whose spectrum is exactly the non-trivial zeros. Residual continuous spectrum is then absent by construction.
+
+**Status.** No such operator is known. The geometric kernels, helix lifts, and correlation structures of the framework are exploratory candidates, but none has been proved to have the exact spectrum of Ξ.
+
+### 6. Compactness + arithmetic fidelity strategy
+
+**Idea.** Take weak-* limit points of the finite Cadical / finite-rank models. Pure-point support automatically contains all zeros (by matching on every finite height). Residual vanishing follows if the residual densities are tight and the only tight limit with the correct pure-point support has zero residual mass.
+
+**Required analytic steps**
+- Tightness of residual densities.
+- Exclusion of spurious pure-point mass in the limit (arithmetic fidelity).
+- Identification that the limiting pure-point support cannot be larger than the zero set.
+
+**Status.** Pure-point containment lifts easily. Tightness and exclusion of residual / spurious mass are open.
+
+### Comparative outlook
+
+| Strategy | Native infinity | Closest framework object | Principal missing piece |
+|----------|-----------------|--------------------------|-------------------------|
+| Fixed-point T | Yes | Map T, reflective closure | Continuity of residual extraction + tightness |
+| Uniform Mourre | Yes | Conjugate operators, Layer 2 | Uniform positive commutator |
+| Lyapunov | Yes | Coherence functionals, Layer 5 | Monotone functional vanishing only at residual zero |
+| Weil positivity | Yes | Positivity criteria | Sufficiently rich test-function family |
+| Hilbert–Pólya | Yes | Geometric kernels, helix | Operator with exact zero spectrum |
+| Compactness + fidelity | Yes | Finite models, residual snapshots | Tightness + arithmetic fidelity in the limit |
+
+All six strategies live in analysis / set theory (infinity is native). None is currently complete. The framework organises them as parallel routes toward the same existence statement (Flag 6) and supplies finite approximations and certificate hooks for each.
+
+### Immediate pressure points
+
+1. Quantitative continuity of residual extraction for T.
+2. A uniform Mourre estimate built from the geometric generators.
+3. An explicit Lyapunov functional compatible with the reflective closure.
+
+Any one of these, once established, would convert the existing finite SAT / finite-rank evidence into a proof of Flag 6.
