@@ -185,3 +185,64 @@ RH (and GRH for the relevant families) holds if and only if there exist operator
 - The Riemann Hypothesis and its analogues remain open.
 
 This second cycle is recorded for continued frontier exploration. The next useful step is any concrete candidate operator (or family) together with a verification plan for the three requirements.
+
+---
+
+## Third Abstraction Cycle (Ultra-Minimal Core + Diagnostic Pathways)
+
+**Date: 14 August 2026 (cycle 3)**
+
+### Ultra-minimal statement
+
+The framework now rests on a single existence claim:
+
+> There exists a self-adjoint operator H (or a continuous family H_χ) on a Hilbert scale such that  
+> (i) its pure-point spectrum equals the set of non-trivial zeros of Ξ (respectively of the completed L-functions),  
+> (ii) its residual continuous spectrum is empty,  
+> (iii) the residual spectrum, were it present, would be controlled by quantitative Mourre estimates with uniform constants.
+
+Everything else is scaffolding or diagnostic apparatus.
+
+### New domains and absorbed tools
+
+#### Symplectic geometry and Floer theory
+
+- Floer homology, symplectic capacities, and action functionals supply candidate spectral invariants whose reality and discreteness can be forced by geometric constraints.
+- Absorbed: the use of Floer-theoretic spectral sequences and action filtrations as possible realisations of the pure-point spectrum, and as tools for proving that residual continuous spectrum cannot appear once certain symplectic constraints are satisfied.
+
+#### Tropical geometry and ultrametric structures
+
+- Tropical spectral theory and ultrametric analysis provide discrete models in which continuous residual spectrum is automatically absent or can be read off from combinatorial data.
+- Absorbed: combinatorial criteria for residual vanishing that can be lifted back to the archimedean setting as diagnostic tests.
+
+#### Motivic integration and motivic measures
+
+- Motivic measures and motivic zeta functions offer a language in which arithmetic generating functions and their spectral realisations can be compared at the level of motivic classes.
+- Absorbed: the possibility of motivic positivity or motivic residual-vanishing statements as additional candidate criteria equivalent to (ii).
+
+#### Soft-charge, anomalous currents, and observer-dependent structures
+
+- Soft theorems, anomalous Ward identities, and observer-dependent spectral decompositions (from asymptotic symmetries or horizon physics) supply examples of residual continuous spectrum that can be projected out by physical selection rules.
+- Absorbed: the idea of “selection-rule projections” that can force P_res = 0 by consistency requirements, providing a physical template for arithmetic residual-vanishing arguments.
+
+#### Holographic dualities and spectral asymptotics in QFT
+
+- Holographic spectral densities, black-hole microstate counting, and QFT spectral asymptotics give concrete models of mixed discrete + continuous spectra whose residual parts are controlled by geometric data on the dual side.
+- Absorbed: holographic dictionaries as candidate maps between arithmetic pure-point data and geometric residual-control data, and as sources of quantitative Mourre-type estimates derived from bulk geometry.
+
+### Diagnostic pathways (practical next steps)
+
+1. **Candidate construction route**: produce any explicit operator (finite-rank, differential, integral, or transfer-operator type) whose eigenvalues are known or conjectured to track the zeros, then test residual continuous spectrum via form-factor or numerical spectral-density diagnostics.
+2. **Positivity route**: evaluate Weil-type quadratic forms (or their motivic / Floer analogues) on a rich enough family of test functions and convert numerical positivity into a residual-vanishing statement.
+3. **Deformation / rigidity route**: start from a known operator with empty residual spectrum and deform it while preserving Mourre estimates and pure-point tracking, using isomonodromic, symplectic, or holographic flows.
+4. **Non-existence route**: assume an operator satisfying (i)–(iii) exists and derive a contradiction with known analytic constraints (e.g., on the growth of residual densities or on the distribution of zeros).
+
+### Status after cycle 3
+
+- Core reduced to a single existence claim with three clauses.
+- Toolbox further enlarged with Floer/symplectic, tropical, motivic, soft-charge/anomalous, and holographic instruments.
+- Concrete diagnostic pathways listed.
+- No claim that any pathway has been successfully completed.
+- The existence claim remains open. The Riemann Hypothesis and its analogues remain open.
+
+Further abstraction cycles are useful only if they generate an explicit candidate operator together with a verification plan for the three clauses, or a rigorous obstruction. Pure formal expansion without concrete realisations adds no new force.
