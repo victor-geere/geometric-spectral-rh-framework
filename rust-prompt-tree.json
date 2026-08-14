@@ -1,0 +1,181 @@
+{
+  "framework": "geometric-spectral-rh-framework",
+  "target_language": "Rust",
+  "version": "1.0.0",
+  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Each node is a prompt that can be used to generate, refine, or verify corresponding Rust modules, traits, and data structures. Expansion is preferred; no collapse to a single classical open problem.",
+  "root": {
+    "id": "root",
+    "title": "Geometric-Spectral Framework in Rust",
+    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Prefer expansion of structure over reduction. The arithmetic zeros of the Riemann zeta function (and L-functions) appear as invariant data that must be consistently realised across layers. Do not collapse the residual difficulty onto a single existence assertion in functional analysis.",
+    "children": [
+      {
+        "id": "layer0",
+        "title": "Layer 0 — Arithmetic Seed",
+        "prompt": "In Rust, define core data structures and traits for the arithmetic seed: purification identities, completed xi-function, explicit formulae, and generating functions. Provide a PurificationIdentity trait and a concrete implementation that encodes the polylogarithmic sum identity relating Li_s to zeta. Include types for complex s, zero sets, and elementary factors. Use num-complex or a custom Complex type. Keep the layer purely arithmetic and independent of higher spectral constructions.",
+        "children": [
+          {
+            "id": "layer0-purification",
+            "title": "Purification Identity",
+            "prompt": "Implement a Rust function or method that, for integer N >= 2 and complex s, evaluates or symbolically represents the identity sum_{k=1}^{N-1} Li_s(exp(2 pi i k / N)) = (N^{1-s} - 1) * zeta(s). Provide both a numerical evaluator (using a polylog implementation or series) and a structural type that records the identity as a CNF-cross-referenceable clause."
+          },
+          {
+            "id": "layer0-xi",
+            "title": "Completed Xi-Function",
+            "prompt": "Define a Rust type XiFunction that represents the completed xi-function Ξ(s) = (1/2) s(s-1) π^{-s/2} Γ(s/2) ζ(s). Provide methods to extract the non-trivial zero set and to distinguish elementary factors. Encode the biconditional (non-trivial zeros of Ξ) ↔ (non-trivial zeros of ζ) as a CNF clause structure."
+          }
+        ]
+      },
+      {
+        "id": "layer1",
+        "title": "Layer 1 — Combinatorial / Geometric Generators",
+        "prompt": "Implement Rust modules for combinatorial and geometric generators: greedy partitions, centred step functions, correlation kernels (diagonal-plus-rank-2 structure), transfer operators, helix/quaternionic lifts, and tropical/ultrametric models. Provide traits Generator and Kernel that produce finite or discrete approximations whose spectral signatures can be tested against Layer 0. Prefer composable, expandable designs.",
+        "children": [
+          {
+            "id": "layer1-greedy",
+            "title": "Greedy Harmonic Decomposition",
+            "prompt": "In Rust, implement a GreedyPartition struct that generates indicator functions or step functions from a greedy rule on an interval (e.g. [0, π]). Provide methods to form centred functions and to compute the associated Gram / correlation matrix. Expose the diagonal-plus-rank-2 structure explicitly."
+          },
+          {
+            "id": "layer1-kernel",
+            "title": "Correlation Kernel",
+            "prompt": "Define a CorrelationKernel trait and a concrete implementation that builds a positive semi-definite (or approximately so) matrix from centred generators. Include weighting by a complex parameter s so that the resulting operator can be linked to zeta or L-function data. Provide numerical eigenvalue routines for finite truncations."
+          }
+        ]
+      },
+      {
+        "id": "layer2",
+        "title": "Layer 2 — Operator Realisations",
+        "prompt": "Implement Rust abstractions for self-adjoint, essentially self-adjoint, or symmetric operators on Hilbert scales, Banach spaces, or more general locally convex spaces. Model residual continuous spectrum, spectral projections, and conjugacy relations as first-class data. Residual continuous spectrum is internal data, not a terminal problem. Use traits such as Operator, ResidualProjection, and ConjugateOperator.",
+        "children": [
+          {
+            "id": "layer2-operator",
+            "title": "Operator Trait Hierarchy",
+            "prompt": "Design a Rust trait hierarchy: Operator, SelfAdjointOperator, ResidualAwareOperator. Include methods for applying the operator, computing residual projections, and querying residual continuous spectrum indicators. Provide at least one concrete finite-dimensional realisation and one trait object friendly design for expandable backends."
+          },
+          {
+            "id": "layer2-mourre",
+            "title": "Mourre Estimates as Optional Data",
+            "prompt": "Define Rust types for relative bounds and quantitative Mourre estimates (positive commutator estimates). Treat them as optional local constraints that can be attached to an operator or to a CNF clause, never as the unique residual difficulty. Provide a builder or configuration pattern so that different architectures can include or omit Mourre data."
+          }
+        ]
+      },
+      {
+        "id": "layer3",
+        "title": "Layer 3 — Dynamical and Deformation Systems",
+        "prompt": "Implement Rust modules for flows (isomonodromic, symplectic, holographic, spectral-deformation) that move structures between realisations while preserving selected invariants. Residual spectrum may appear or disappear under the flow; the flow itself is retained as an object of study. Prefer trait-based Flow and Deformation interfaces that can be composed.",
+        "children": [
+          {
+            "id": "layer3-flow",
+            "title": "Flow Trait",
+            "prompt": "Define a Flow trait with associated types for State and Parameter. Provide methods step and evolve. Implement at least one concrete spectral-deformation flow that acts on finite-rank operators or correlation kernels while tracking residual indicators."
+          }
+        ]
+      },
+      {
+        "id": "layer4",
+        "title": "Layer 4 — Categorical and Higher-Order Organisation",
+        "prompt": "In Rust, model functors between categories of spectral objects, spectral triples, higher categorical traces, and motivic realisations using traits and associated types. Correspondence principles between arithmetic and geometric categories become first-class. Use the type system to encode morphism composition and identity laws where feasible; keep the design expandable.",
+        "children": [
+          {
+            "id": "layer4-functor",
+            "title": "Functor Trait",
+            "prompt": "Define a Functor trait with source and target category associated types and a map method. Provide example implementations that lift Layer 0 arithmetic data into Layer 2 operator data and that transport residual indicators. Encode the preservation of discrete zero data as a CNF-cross-referenceable invariant."
+          }
+        ]
+      },
+      {
+        "id": "layer5",
+        "title": "Layer 5 — Information-Geometric and Statistical Layers",
+        "prompt": "Implement Rust types for spectral measures as statistical states, information metrics (Fisher–Rao or analogues) on spaces of residual densities, large-deviation principles, and entropy / free-energy functionals. Critical points of these functionals may enforce discrete pure-point realisations. Prefer generic numeric backends (ndarray, nalgebra, or custom).",
+        "children": [
+          {
+            "id": "layer5-metric",
+            "title": "Information Metric",
+            "prompt": "Define an InformationMetric trait on residual density spaces. Provide a simple Fisher–Rao style implementation for finite discrete residual measures and methods to compute gradients that can drive residual measure toward zero while preserving arithmetic pair-correlation statistics where possible."
+          }
+        ]
+      },
+      {
+        "id": "layer6",
+        "title": "Layer 6 — Multi-Scale and Holographic Correspondences",
+        "prompt": "Implement Rust abstractions for bulk/boundary dictionaries, renormalisation-group flows of spectral data, effective viscosity or phase-obstruction measures, and soft-charge / anomalous selection rules. These supply cross-scale consistency conditions rather than reduction targets. Keep the interfaces open for new holographic dictionaries.",
+        "children": [
+          {
+            "id": "layer6-dictionary",
+            "title": "Holographic Dictionary",
+            "prompt": "Define a HolographicDictionary trait that maps boundary arithmetic data (Layer 0) to bulk geometric or residual-control data and vice versa. Provide a minimal concrete example that transports discrete zero locations and residual indicators across the dictionary."
+          }
+        ]
+      },
+      {
+        "id": "layer7",
+        "title": "Layer 7 — Open Synthesis Stratum",
+        "prompt": "Provide a Rust extension point (trait + registration mechanism) that allows any new structure (physical, geometric, combinatorial, categorical, information-theoretic) producing a coherent correspondence with the arithmetic seed to be admitted. The stratum remains open by design. Include a simple plugin-style registry.",
+        "children": []
+      },
+      {
+        "id": "generative",
+        "title": "Generative Meta-Stratum",
+        "prompt": "Implement Rust traits and structures for architecture production rules, inter-architecture morphisms, layer-generation operators, and coherence functionals. The meta-stratum produces, transforms, and compares entire multi-layer architectures. Prefer expandable trait objects or enum-based rule sets.",
+        "children": [
+          {
+            "id": "generative-production",
+            "title": "Architecture Production",
+            "prompt": "Define an ArchitectureProducer trait that, given Layer 0 seed data and a set of desired correspondence types, emits a candidate multi-layer system (as a structured collection of Layer 1–7 objects). Provide at least one concrete producer that emphasises combinatorial + operator layers."
+          },
+          {
+            "id": "generative-coherence",
+            "title": "Coherence Functional",
+            "prompt": "Implement a CoherenceScorer trait that scores an entire architecture according to the strength of discrete-zero constraints imposed by its cross-layer morphisms. Keep the scoring exploratory and non-terminal."
+          }
+        ]
+      },
+      {
+        "id": "cnf",
+        "title": "CNF Cross-Reference and Generative Layer",
+        "prompt": "Implement a Rust CNF subsystem: clause representation, biconditional encoding of key identities (purification, Ξ, cross-layer invariance), local residual/positivity clauses, clause-generation operators, inter-clause morphisms, and CNF coherence scoring. CNF serves cross-referencing and combination; it does not collapse the framework onto a pure SAT problem.",
+        "children": [
+          {
+            "id": "cnf-clause",
+            "title": "Clause Representation",
+            "prompt": "Define Rust types Literal, Clause, and CnfFormula. Provide constructors for biconditionals and for the core cross-reference clauses of the framework (purification, Ξ zero-set equivalence, discrete-zero invariance under morphisms). Include a simple satisfiability probe that is treated as diagnostic only."
+          },
+          {
+            "id": "cnf-generation",
+            "title": "Clause-Generation Operators",
+            "prompt": "Implement a ClauseGenerator trait that takes existing CNF clauses or templates and emits new clauses by combination or specialisation. Retain generated clauses when they enlarge consistency conditions linked to the arithmetic seed. Provide one concrete generator that combines the purification biconditional with local residual templates."
+          }
+        ]
+      },
+      {
+        "id": "reflective",
+        "title": "Reflective Stratum",
+        "prompt": "Implement reflective capacities so that generative rules and CNF operators can operate on themselves. Provide self-application of generators, reflective CNF meta-clauses, and reflective coherence scoring. Reflection multiplies capacities; it does not terminate the residual difficulty.",
+        "children": [
+          {
+            "id": "reflective-self",
+            "title": "Self-Application",
+            "prompt": "Design a Rust mechanism (trait or higher-order function) that allows a ClauseGenerator or ArchitectureProducer to take a description of itself as input and emit a refined or alternative version. Record the resulting meta-clauses in the CNF subsystem."
+          }
+        ]
+      },
+      {
+        "id": "integration",
+        "title": "Crate Integration and Expansion Rules",
+        "prompt": "Organise the above layers into a coherent Rust crate (or workspace). Provide a top-level Framework type that holds references to active layers, generative producers, CNF formulae, and reflective operators. Enforce the operating rule that expansion is preferred to collapse. Include documentation and example binaries that demonstrate constructing a minimal multi-layer system from the arithmetic seed and generating at least one CNF cross-reference set. Keep every extension point open.",
+        "children": [
+          {
+            "id": "integration-crate",
+            "title": "Crate Skeleton",
+            "prompt": "Generate the Cargo.toml, module tree (lib.rs and submodules corresponding to layers 0–7, generative, cnf, reflective), and a minimal main or example that constructs a Layer 0 seed, a simple Layer 1 generator, a finite-rank Layer 2 operator, and a CNF formula containing the purification biconditional. Print a summary of the assembled architecture and its CNF cross-references."
+          },
+          {
+            "id": "integration-expansion",
+            "title": "Expansion Guardrails",
+            "prompt": "Add comments and optional runtime checks that discourage elevating any single local constraint (Mourre, residual vanishing, CNF satisfiability, etc.) to the status of the unique residual difficulty. Prefer adding new layers, morphisms, or generators over collapsing the system."
+          }
+        ]
+      }
+    ]
+  }
+}
