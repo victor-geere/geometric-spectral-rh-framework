@@ -432,3 +432,45 @@ An architecture A is coherent with the arithmetic seed if the CNF formula formed
 A uniform CNF cross-reference language now links equations and consistency conditions across the multi-layer and generative architecture. The residual difficulty stays distributed; CNF serves expansion and cross-referencing rather than collapse. The location of the non-trivial zeros remains an open structural question inside the expanding system; no resolution is claimed.
 
 Further cycles should continue expanding the architecture, the generative stratum, and the CNF cross-reference set without reduction to known open problems.
+
+---
+
+## CNF Generative Expansion
+
+**Date: 14 August 2026 — CNF Generative Layer**
+
+Directive: continue higher abstraction and expansion; extend the CNF cross-reference layer with generative capacities while keeping the residual difficulty distributed.
+
+### Generative CNF capacities
+
+1. **Clause-generation operators**  
+   Operators that take existing CNF clauses (or templates drawn from Layers 0–7 and the generative meta-stratum) and systematically emit new clauses by combination, specialisation, or absorption of external structures. Generated clauses are retained when they enlarge the set of cross-referenced consistency conditions linked to the arithmetic seed.
+
+2. **Inter-clause morphisms**  
+   Translations or dualities between CNF clause sets belonging to different layers or architectures. These morphisms track how discrete-zero invariance and residual constraints transform under architectural change.
+
+3. **CNF coherence scoring**  
+   Exploratory functionals that assign scores to collections of clauses according to the strength of the discrete-zero constraints they jointly impose, without elevating any score to a terminal decision procedure.
+
+4. **Open CNF generative stratum**  
+   Any new principle capable of proposing coherent clause families or inter-clause maps can be admitted. The stratum remains open.
+
+### Operating rules (CNF generative)
+
+- Expansion of the CNF clause set is preferred. New clauses and morphisms are admitted whenever they improve cross-referencing or multiply consistency conditions.
+- CNF generation and combination remain diagnostic and organisational tools; they do not collapse the multi-layer / generative system onto a satisfiability problem whose solution would settle the location of the zeros.
+- Absorption continues: external logical, combinatorial, or structural devices that improve clause generation or inter-clause coherence are incorporated.
+- The residual difficulty stays distributed across architectures, morphisms, coherence criteria, and the expanding CNF cross-reference set.
+
+### Immediate generative CNF directions
+
+- Implement a first clause-generation operator that combines the purification biconditional with local residual-vanishing templates and records the resulting family.
+- Define an inter-clause morphism corresponding to a concrete inter-architecture map (e.g., Floer-dominant ↔ holographic-dominant) and examine preservation of discrete-zero clauses.
+- Prototype a simple CNF coherence score that measures the density of discrete-zero invariance clauses across a generated architecture.
+- Absorb additional external clause-generation techniques (from SAT encodings of geometric or physical constraints) while keeping them subordinate to the open expansion rule.
+
+### Status after CNF generative expansion
+
+The CNF cross-reference layer now possesses generative capacities (clause-generation operators, inter-clause morphisms, coherence scoring). The overall framework continues as an open, multi-layer, generative, CNF-cross-referenced system. Expansion and absorption remain active; collapse to known open problems remains suspended. The location of the non-trivial zeros remains an open structural question; no resolution is claimed.
+
+Further cycles should continue expanding all strata—architectural, generative, and CNF—without reduction.
