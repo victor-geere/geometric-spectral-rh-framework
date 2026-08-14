@@ -1,12 +1,13 @@
 {
   "framework": "geometric-spectral-rh-framework",
   "target_language": "Rust",
-  "version": "1.0.0",
-  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Each node is a prompt that can be used to generate, refine, or verify corresponding Rust modules, traits, and data structures. Expansion is preferred; no collapse to a single classical open problem.",
+  "version": "1.1.0",
+  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Each node is a prompt that can be used to generate, refine, or verify corresponding Rust modules, traits, and data structures. The framework architecture itself prefers expansion and does not collapse prior to output. Concrete CNF problems emitted by the Rust implementation may subsequently be collapsed to a solution (via Cadical or any other solver).",
+  "collapse_rule": "The multi-layer generative framework does not collapse its residual difficulty onto a single classical open problem before generating concrete CNF instances. Once Rust has emitted a concrete CNF formula (or family of formulae), that output problem is permitted to be collapsed to a solution by a SAT solver (Cadical) or by Grok. Collapse is allowed only on the emitted instances, never on the architecture prior to emission.",
   "root": {
     "id": "root",
     "title": "Geometric-Spectral Framework in Rust",
-    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Prefer expansion of structure over reduction. The arithmetic zeros of the Riemann zeta function (and L-functions) appear as invariant data that must be consistently realised across layers. Do not collapse the residual difficulty onto a single existence assertion in functional analysis.",
+    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Prefer expansion of structure over reduction inside the architecture. The arithmetic zeros of the Riemann zeta function (and L-functions) appear as invariant data that must be consistently realised across layers. Do not collapse the residual difficulty of the framework itself onto a single existence assertion prior to generating concrete CNF output. Once concrete CNF formulae have been emitted, those formulae are allowed to be collapsed to a solution by Cadical or any other solver.",
     "children": [
       {
         "id": "layer0",
@@ -55,7 +56,7 @@
           {
             "id": "layer2-mourre",
             "title": "Mourre Estimates as Optional Data",
-            "prompt": "Define Rust types for relative bounds and quantitative Mourre estimates (positive commutator estimates). Treat them as optional local constraints that can be attached to an operator or to a CNF clause, never as the unique residual difficulty. Provide a builder or configuration pattern so that different architectures can include or omit Mourre data."
+            "prompt": "Define Rust types for relative bounds and quantitative Mourre estimates (positive commutator estimates). Treat them as optional local constraints that can be attached to an operator or to a CNF clause. Provide a builder or configuration pattern so that different architectures can include or omit Mourre data."
           }
         ]
       },
@@ -126,53 +127,70 @@
           {
             "id": "generative-coherence",
             "title": "Coherence Functional",
-            "prompt": "Implement a CoherenceScorer trait that scores an entire architecture according to the strength of discrete-zero constraints imposed by its cross-layer morphisms. Keep the scoring exploratory and non-terminal."
+            "prompt": "Implement a CoherenceScorer trait that scores an entire architecture according to the strength of discrete-zero constraints imposed by its cross-layer morphisms. Keep the scoring exploratory inside the architecture; scoring may later feed concrete CNF instances that are allowed to be collapsed."
           }
         ]
       },
       {
         "id": "cnf",
         "title": "CNF Cross-Reference and Generative Layer",
-        "prompt": "Implement a Rust CNF subsystem: clause representation, biconditional encoding of key identities (purification, Ξ, cross-layer invariance), local residual/positivity clauses, clause-generation operators, inter-clause morphisms, and CNF coherence scoring. CNF serves cross-referencing and combination; it does not collapse the framework onto a pure SAT problem.",
+        "prompt": "Implement a Rust CNF subsystem: clause representation, biconditional encoding of key identities (purification, Ξ, cross-layer invariance), local residual/positivity clauses, clause-generation operators, inter-clause morphisms, and CNF coherence scoring. The framework architecture itself does not collapse onto a pure SAT problem. Concrete CNF formulae emitted by this subsystem are allowed to be collapsed to a solution by Cadical or any other solver.",
         "children": [
           {
             "id": "cnf-clause",
             "title": "Clause Representation",
-            "prompt": "Define Rust types Literal, Clause, and CnfFormula. Provide constructors for biconditionals and for the core cross-reference clauses of the framework (purification, Ξ zero-set equivalence, discrete-zero invariance under morphisms). Include a simple satisfiability probe that is treated as diagnostic only."
+            "prompt": "Define Rust types Literal, Clause, and CnfFormula. Provide constructors for biconditionals and for the core cross-reference clauses of the framework (purification, Ξ zero-set equivalence, discrete-zero invariance under morphisms). Include export methods that produce DIMACS or other standard formats ready for Cadical."
           },
           {
             "id": "cnf-generation",
             "title": "Clause-Generation Operators",
-            "prompt": "Implement a ClauseGenerator trait that takes existing CNF clauses or templates and emits new clauses by combination or specialisation. Retain generated clauses when they enlarge consistency conditions linked to the arithmetic seed. Provide one concrete generator that combines the purification biconditional with local residual templates."
+            "prompt": "Implement a ClauseGenerator trait that takes existing CNF clauses or templates and emits new clauses by combination or specialisation. Retain generated clauses when they enlarge consistency conditions linked to the arithmetic seed. Provide one concrete generator that combines the purification biconditional with local residual templates. Generated formulae are permitted to be handed to Cadical for collapse to a solution."
+          },
+          {
+            "id": "cnf-cadical",
+            "title": "Cadical Integration",
+            "prompt": "Integrate the Cadical SAT solver into the Rust CNF subsystem. Prefer a safe Rust binding or FFI wrapper (e.g. via the `cadical` crate if available, or a thin sys crate around the official Cadical C++ library). Provide:\n\n1. A CadicalSolver struct that accepts a CnfFormula (or DIMACS stream).\n2. Methods: add_clause, solve, model (if SAT), core (if UNSAT), and statistics.\n3. An export path that turns any framework-generated CnfFormula into a Cadical instance.\n4. A high-level entry point that takes an architecture (or a selected set of cross-layer clauses), emits the corresponding CNF, and optionally runs Cadical immediately.\n\nCollapse rule: the multi-layer framework architecture itself remains non-collapsed. Only the concrete CNF instances that Rust outputs may be collapsed by Cadical to a solution (satisfying assignment or unsatisfiability proof). Document this distinction clearly in the API and in comments.\n\nAlso provide a pure-Rust fallback path (e.g. a simple DPLL or a pure-Rust solver) so the crate remains usable without the Cadical shared library, while still preferring Cadical when available.",
+            "children": [
+              {
+                "id": "cnf-cadical-binding",
+                "title": "Cadical Binding / FFI",
+                "prompt": "Create a minimal, safe Rust interface to Cadical. Options: (a) use an existing crates.io binding if one is maintained, (b) write a thin `cadical-sys` crate with bindgen or manual FFI, or (c) shell out to a Cadical binary with DIMACS files. Prefer in-process FFI for performance and for returning models/cores directly into Rust data structures. Expose solve, model, and unsat-core extraction."
+              },
+              {
+                "id": "cnf-cadical-pipeline",
+                "title": "Framework → CNF → Cadical Pipeline",
+                "prompt": "Implement an end-to-end pipeline: Architecture (or selected layers + morphisms) → CnfFormula (via the cross-reference and generation machinery) → CadicalSolver → Solution (model or unsat core). The pipeline must make the collapse boundary explicit: everything before the final Cadical call is expansion-oriented; the Cadical call itself is the permitted collapse of the emitted problem. Return structured results that can be inspected by Grok or by further Rust code."
+              }
+            ]
           }
         ]
       },
       {
         "id": "reflective",
         "title": "Reflective Stratum",
-        "prompt": "Implement reflective capacities so that generative rules and CNF operators can operate on themselves. Provide self-application of generators, reflective CNF meta-clauses, and reflective coherence scoring. Reflection multiplies capacities; it does not terminate the residual difficulty.",
+        "prompt": "Implement reflective capacities so that generative rules and CNF operators can operate on themselves. Provide self-application of generators, reflective CNF meta-clauses, and reflective coherence scoring. Reflection multiplies capacities; it does not terminate the residual difficulty of the architecture. Reflective generation may still emit concrete CNF instances that are later allowed to be collapsed by Cadical.",
         "children": [
           {
             "id": "reflective-self",
             "title": "Self-Application",
-            "prompt": "Design a Rust mechanism (trait or higher-order function) that allows a ClauseGenerator or ArchitectureProducer to take a description of itself as input and emit a refined or alternative version. Record the resulting meta-clauses in the CNF subsystem."
+            "prompt": "Design a Rust mechanism (trait or higher-order function) that allows a ClauseGenerator or ArchitectureProducer to take a description of itself as input and emit a refined or alternative version. Record the resulting meta-clauses in the CNF subsystem. Those meta-clauses may be included in formulae that are subsequently solved by Cadical."
           }
         ]
       },
       {
         "id": "integration",
-        "title": "Crate Integration and Expansion Rules",
-        "prompt": "Organise the above layers into a coherent Rust crate (or workspace). Provide a top-level Framework type that holds references to active layers, generative producers, CNF formulae, and reflective operators. Enforce the operating rule that expansion is preferred to collapse. Include documentation and example binaries that demonstrate constructing a minimal multi-layer system from the arithmetic seed and generating at least one CNF cross-reference set. Keep every extension point open.",
+        "title": "Crate Integration and Expansion / Collapse Rules",
+        "prompt": "Organise the above layers into a coherent Rust crate (or workspace). Provide a top-level Framework type that holds references to active layers, generative producers, CNF formulae, reflective operators, and a CadicalSolver. Enforce the operating rule that the architecture itself prefers expansion and does not collapse prior to emitting concrete CNF. Once a CnfFormula has been emitted, it may be collapsed to a solution by Cadical. Include documentation and example binaries that demonstrate the full pipeline: seed → multi-layer system → CNF emission → Cadical solve → structured result. Keep every extension point open.",
         "children": [
           {
             "id": "integration-crate",
             "title": "Crate Skeleton",
-            "prompt": "Generate the Cargo.toml, module tree (lib.rs and submodules corresponding to layers 0–7, generative, cnf, reflective), and a minimal main or example that constructs a Layer 0 seed, a simple Layer 1 generator, a finite-rank Layer 2 operator, and a CNF formula containing the purification biconditional. Print a summary of the assembled architecture and its CNF cross-references."
+            "prompt": "Generate the Cargo.toml (including optional Cadical dependency), module tree (lib.rs and submodules corresponding to layers 0–7, generative, cnf, reflective, cadical), and a minimal main or example that constructs a Layer 0 seed, a simple Layer 1 generator, a finite-rank Layer 2 operator, a CNF formula containing the purification biconditional and selected residual clauses, then optionally runs Cadical on that formula and prints the result (SAT model or UNSAT). Clearly separate the expansion phase from the optional collapse phase."
           },
           {
-            "id": "integration-expansion",
-            "title": "Expansion Guardrails",
-            "prompt": "Add comments and optional runtime checks that discourage elevating any single local constraint (Mourre, residual vanishing, CNF satisfiability, etc.) to the status of the unique residual difficulty. Prefer adding new layers, morphisms, or generators over collapsing the system."
+            "id": "integration-rules",
+            "title": "Expansion vs Collapse Boundary",
+            "prompt": "Add explicit documentation and optional runtime assertions that mark the boundary: everything that builds architectures, morphisms, and CNF formulae is expansion-oriented; the moment a concrete CnfFormula is handed to CadicalSolver::solve is the permitted collapse of that output problem. Do not allow the architecture itself to be reduced to a single classical open problem before that emission point."
           }
         ]
       }
