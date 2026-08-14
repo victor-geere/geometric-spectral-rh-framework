@@ -1,48 +1,53 @@
 {
   "framework": "geometric-spectral-rh-framework",
   "target_language": "Rust",
-  "version": "1.3.0",
-  "description": "Hierarchical prompt tree for implementing the multi-layer, generative, CNF-cross-referenced, reflective geometric-spectral framework in Rust. Concrete CNF problems emitted by the Rust implementation may be collapsed by Cadical. This version adds an explicit Flag-6 subtree that expresses the terminal infinite-lift problem in CNF terms and generates the corresponding Rust scaffolding. Flag 6 itself remains an analytic open problem; the CNF/SAT layer only supplies the finite approximations and the hooks for the required lifts.",
-  "collapse_rule": "The multi-layer generative framework does not collapse its residual difficulty onto a single classical open problem before generating concrete CNF instances. Once Rust has emitted a concrete CNF formula, that output problem is permitted to be collapsed to a solution by Cadical. The infinite lift (Flag 6) cannot be performed by SAT alone and remains conditional on analytic flags (tightness, uniform Mourre, continuity of residual extraction, Lyapunov functional).",
+  "version": "1.4.0",
+  "description": "Hierarchical prompt tree for the geometric-spectral framework in Rust. Adds the helix as a CNF axiom that extends clock arithmetic per digit toward infinity with every rotation. Finite CNF instances remain decidable by Cadical; the infinite helical progression is recovered only in the limit of rotations.",
+  "collapse_rule": "Concrete finite CNF instances (including those generated from the helix axiom) may be collapsed by Cadical. The infinite helical extension and Flag-6 lift remain analytic and external to SAT.",
   "root": {
     "id": "root",
     "title": "Geometric-Spectral Framework in Rust",
-    "prompt": "Implement a modular Rust crate that realises the geometric-spectral framework as an open multi-layer, generative, CNF-cross-referenced and reflective system. Fully support the parameterized family Φ_{N,M,K} and provide scaffolding for the Flag-6 infinite lift. The SAT layer decides only finite instances; the infinite statement is external.",
+    "prompt": "Implement a modular Rust crate realising the geometric-spectral framework with parameterized Φ, Flag-6 scaffolding, and the helix axiom for extending clock arithmetic per digit to infinity via successive rotations.",
     "children": [
       {
         "id": "cnf-phi",
-        "title": "Parameterized Φ (existing)",
-        "prompt": "Retain the full parameterized Φ_{N,M,K} emission, Cadical integration, and model examination already present in the tree."
+        "title": "Parameterized Φ",
+        "prompt": "Retain full parameterized Φ_{N,M,K} emission, Cadical integration, and model examination."
       },
       {
         "id": "flag6",
-        "title": "Flag 6 — Infinite Zero-Set Lift expressed in CNF + Rust",
-        "prompt": "Flag 6 (terminal): Prove that residual continuous spectrum vanishes for a limiting spectral measure whose pure-point support is exactly the set of all non-trivial zeros of Ξ.\n\nExpress this flag in CNF terms as the following limiting statement about the family of finite formulae:\n\n  For every finite K there exists a model of Φ^⋆_{N,M,K} (with N,M sufficiently large relative to K) in which the first K zeros are realised and residual mass is zero once the reflective fixpoint is reached;\n  AND the family of residual densities of those models is tight;\n  AND every weak-* limit point has residual mass identically zero and pure-point support exactly the non-trivial zeros of Ξ.\n\nThe first conjunct is decided by Cadical on finite CNF instances. The second and third conjuncts are analytic and cannot be expressed as a single finite CNF formula. The Rust implementation must therefore:\n1. emit and solve the finite CNF family,\n2. extract residual densities and pure-point locations from the models,\n3. expose clear extension points (traits / hooks) where a future tightness proof, Mourre estimate, continuity proof for T, or Lyapunov functional can be attached,\n4. never claim that SAT has solved Flag 6.\n\nGenerate the Rust modules described in the children below.",
+        "title": "Flag 6 scaffolding",
+        "prompt": "Retain Flag-6 CNF family emitter, residual snapshots, analytic lift hooks, and orchestrator. The helix axiom below supplies an additional generator of successive finite approximations that can feed Flag 6."
+      },
+      {
+        "id": "helix-axiom",
+        "title": "Helix Axiom — Clock Arithmetic Extended to Infinity by Rotation",
+        "prompt": "Introduce the helix as a first-class CNF axiom schema.\n\nGeometric meaning: a helix advances one unit of ‘height’ (or one digit place) with every full rotation about its axis. Clock arithmetic on a single digit is modular (mod b for base b). The helix lifts this modular clock so that each complete rotation produces a carry into a new, higher digit, thereby generating an unbounded sequence of digits.\n\nCNF realisation: for a finite number of rotations R and a fixed base b (clock size), emit a finite CNF that enforces:\n- digit variables D_{r,p} for rotation r = 0..R-1 and place p = 0..P-1,\n- modular clock constraints on each digit (clock arithmetic),\n- carry / advance constraints that fire exactly once per full rotation and open a new place,\n- consistency of the helical lift with the residual-vanishing and zero-realisation clauses of Φ.\n\nIn the limit R→∞ the successive carries generate the infinite digit string; inside any finite CNF only finitely many rotations and places appear. The helix axiom therefore supplies a systematic way of extending finite clock arithmetic toward infinity while remaining inside the finitary CNF formalism for each concrete instance.\n\nGenerate the Rust modules described in the children.",
         "children": [
           {
-            "id": "flag6-cnf-family",
-            "title": "CNF Family Emitter for Flag 6",
-            "prompt": "Implement a Rust type Flag6CnfFamily that, given bounds (N_max, M_max, K_max), systematically emits the sequence of CnfFormulae Φ^⋆_{N,M,K} for all 1 ≤ N ≤ N_max, 1 ≤ M ≤ M_max, 1 ≤ K ≤ K_max (or a configurable subset). Each formula must be independently solvable by Cadical. Provide a method that runs Cadical on the whole family and collects a structured report: for each (N,M,K) the SAT/UNSAT status, whether residual vanished, and the realised pure-point locations. This report is the propositional shadow of Flag 6; the infinite lift is not performed here."
+            "id": "helix-params",
+            "title": "HelixParams",
+            "prompt": "Define struct HelixParams { pub rotations: usize, pub base: usize, pub places: usize, pub link_to_phi: bool, ... }. defaults: rotations=4, base=10 (or 2), places=rotations. Builder API required."
           },
           {
-            "id": "flag6-model-extraction",
-            "title": "Model Extraction and Residual Density Recording",
-            "prompt": "From every SAT model returned by Cadical, extract:\n- the set of realised Z_k,\n- the residual vector (R_{i,d}) at every depth,\n- the final residual mass indicator,\n- the reflective fixpoint status.\nStore these data in a serialisable structure ResidualSnapshot. Implement a collector that builds a sequence of ResidualSnapshots indexed by K (and optionally by N,M). These sequences are the concrete objects on which tightness, correlation with true zeros, and Lyapunov decrease can later be checked."
+            "id": "helix-variables",
+            "title": "Helix Variable Allocation",
+            "prompt": "Allocate propositional variables:\n- D_{r,p} — digit at rotation r, place p (value 0..base-1 encoded in binary or one-hot),\n- C_r — carry / full-rotation flag for rotation r,\n- A_p — place-active flag (place p has been opened by a previous carry),\n- optional linkage variables that connect the highest active place to residual indices or zero indices of Φ.\nProvide dense DIMACS identifiers and a bidirectional map."
           },
           {
-            "id": "flag6-lift-hooks",
-            "title": "Analytic Lift Hooks (Traits)",
-            "prompt": "Define Rust traits that mark the exact analytic obligations of Flag 6:\n\ntrait TightnessCertificate {\n    fn is_tight(snapshots: &[ResidualSnapshot]) -> bool;\n    // a real implementation would prove uniform integrability\n}\n\ntrait UniformMourreCertificate {\n    fn mourre_constant(&self, interval: (f64,f64)) -> Option<f64>;\n    // returns Some(θ) if a uniform Mourre estimate with constant θ is known\n}\n\ntrait ContinuityOfResidualExtraction {\n    fn is_continuous_in_weak_star(&self) -> bool;\n    // placeholder for a proof that Step C of T is continuous\n}\n\ntrait LyapunovFunctional {\n    fn evaluate(&self, snapshot: &ResidualSnapshot) -> f64;\n    fn decreases_under_T(&self, before: &ResidualSnapshot, after: &ResidualSnapshot) -> bool;\n}\n\nProvide trivial (always-false or always-None) default implementations and document that supplying a correct implementation of any one of these traits is equivalent to capturing the corresponding analytic flag and thereby enabling the Flag-6 lift. The traits themselves contain no SAT logic."
+            "id": "helix-clauses",
+            "title": "Helix CNF Clauses (Clock + Carry + Advance)",
+            "prompt": "Emit the following clause groups for any HelixParams:\n\n1. Clock-arithmetic constraints: each digit D_{r,p} satisfies 0 ≤ value < base (one-hot or binary modular constraints).\n2. Rotation-advance: after a full rotation the carry C_r becomes true exactly once.\n3. Place-opening: when C_r is true a new place A_{p+1} is activated and the digit sequence is extended.\n4. Consistency across rotations: digits and carries form a coherent helical trajectory (no contradictory carries, monotonic place activation).\n5. Optional Φ-linkage (when link_to_phi = true): the number of active places or the highest digit value is forced to correlate with residual-vanishing or with the number of realised zeros, so that each additional rotation supplies a finer finite approximation usable by Flag 6.\n\nAll groups remain finite for finite rotations/places."
           },
           {
-            "id": "flag6-orchestration",
-            "title": "Flag 6 Orchestrator",
-            "prompt": "Implement a top-level Flag6Orchestrator that:\n1. builds the CNF family,\n2. solves it with Cadical,\n3. extracts ResidualSnapshots,\n4. invokes any registered TightnessCertificate / UniformMourreCertificate / ContinuityOfResidualExtraction / LyapunovFunctional,\n5. reports whether the finite SAT part succeeded and whether any analytic certificate is present.\n\nIf all required certificates return positive, the orchestrator may print a structured claim that the conditions of Flag 6 are satisfied; otherwise it must clearly state that the infinite lift remains open. Never assert that the Riemann Hypothesis has been proved solely from SAT results."
+            "id": "helix-emit",
+            "title": "emit_helix and Combined Φ+Helix Instances",
+            "prompt": "Implement emit_helix(params: HelixParams) -> CnfFormula. Also implement emit_phi_with_helix(phi: PhiParams, helix: HelixParams) -> CnfFormula that conjoins the Φ clauses with the helix clauses under the linkage variables. Provide DIMACS export and Cadical solving for the combined instances. Unit tests must verify that small helical clocks (e.g. base=2, rotations=3) are SAT and that successive rotations correctly open new places."
           },
           {
-            "id": "flag6-documentation",
-            "title": "Documentation of the CNF / Analytic Boundary",
-            "prompt": "In the generated crate documentation and in code comments, state explicitly:\n\n- Flag 6 = infinite residual-vanishing + exact pure-point support = the non-trivial zeros of Ξ.\n- The CNF family Φ^⋆_{N,M,K} only decides the finite conjunct of Flag 6.\n- The remaining conjuncts (tightness, uniform Mourre, continuity of T, Lyapunov) are analytic and live at the level of set theory / analysis.\n- A Rust implementation that solves every finite CNF instance has completed the propositional part of Flag 6 but has not captured Flag 6 itself.\n\nThis boundary must be visible to any user of the crate."
+            "id": "helix-infinity-documentation",
+            "title": "Documentation of the Helical Extension to Infinity",
+            "prompt": "Document explicitly:\n\n- Each finite helical CNF instance encodes only finitely many rotations and places.\n- The intended infinite object is the limit of the digit string produced by infinitely many rotations (the infinite helical unwind of clock arithmetic).\n- This limit lives at the level of set theory / analysis; it is not an object inside any single CNF formula.\n- The helix axiom therefore gives a systematic generator of finite approximations that can be fed to Cadical and to the Flag-6 residual-snapshot machinery, but does not by itself close Flag 6 or prove residual vanishing for the genuine continuous spectrum.\n\nThe boundary between the finitary helical CNF and the analytic infinite helix must remain visible in the crate documentation."
           }
         ]
       }
