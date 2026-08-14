@@ -246,3 +246,63 @@ Everything else is scaffolding or diagnostic apparatus.
 - The existence claim remains open. The Riemann Hypothesis and its analogues remain open.
 
 Further abstraction cycles are useful only if they generate an explicit candidate operator together with a verification plan for the three clauses, or a rigorous obstruction. Pure formal expansion without concrete realisations adds no new force.
+
+---
+
+## Higher Abstraction Expansion (Multi-Layer Architecture)
+
+**Date: 14 August 2026 — Expansion Layer**
+
+Directive: move to higher abstraction layers; expand rather than collapse; do not reduce the residual difficulty to any single known open problem in functional analysis or spectral theory.
+
+### Architectural principle
+
+The geometric-spectral framework is re-organised as an open, multi-layer system in which each layer generates candidate structures, constraints, and correspondence principles that can be lifted or projected into neighbouring layers. No layer is designated as the terminal reduction. The arithmetic zeros appear as invariant data that must be consistently realised across layers; consistency itself becomes the organising criterion.
+
+### Layer structure (expandable)
+
+**Layer 0 — Arithmetic seed**  
+Generating functions, purification identities, completed L-functions, explicit formulae. Source of the discrete spectral data that must reappear in every higher layer.
+
+**Layer 1 — Combinatorial / geometric generators**  
+Greedy partitions, correlation kernels, transfer operators, balance conditions, helix/quaternionic lifts, tropical and ultrametric models. These produce finite or discrete approximations whose spectral signatures are tested for fidelity to Layer 0.
+
+**Layer 2 — Operator realisations**  
+Self-adjoint, essentially self-adjoint, or symmetric operators on Hilbert scales, Banach spaces, or more general locally convex spaces. Residual continuous spectrum, spectral projections, and conjugacy relations appear here as internal data, not as the final problem.
+
+**Layer 3 — Dynamical and deformation systems**  
+Flows (isomonodromic, symplectic, holographic, spectral-deformation) that move structures between realisations while preserving selected invariants. Residual spectrum may appear or disappear under the flow; the flow itself is retained as an object of study.
+
+**Layer 4 — Categorical and higher-order organisation**  
+Functors between categories of spectral objects, spectral triples in noncommutative geometry, higher categorical traces, topos-theoretic or motivic realisations of generating functions. Correspondence principles between arithmetic and geometric categories become first-class citizens.
+
+**Layer 5 — Information-geometric and statistical layers**  
+Spectral measures viewed as statistical states; Fisher–Rao or other information metrics on spaces of residual densities; large-deviation principles governing the cost of residual continuous spectrum; entropy and free-energy functionals whose critical points enforce discrete pure-point realisations.
+
+**Layer 6 — Multi-scale and holographic correspondences**  
+Bulk/boundary dictionaries, renormalisation-group flows of spectral data, effective viscosity or phase-obstruction measures, soft-charge and anomalous selection rules that project residual continuum. These supply cross-scale consistency conditions rather than reduction targets.
+
+**Layer 7 — Open synthesis stratum**  
+Any new structure (physical, geometric, combinatorial, categorical, information-theoretic) that produces a coherent correspondence with the arithmetic seed of Layer 0 can be admitted. The stratum remains open by design.
+
+### Operating rules of the expanded framework
+
+1. Expansion is preferred to collapse. New layers or new objects inside existing layers are admitted whenever they generate non-trivial consistency conditions with the arithmetic seed.
+2. No single layer is declared terminal. In particular, the existence of a Mourre-controlled self-adjoint operator with empty residual continuous spectrum is retained as one possible consistency condition among many, not as the unique or final form of the problem.
+3. Cross-layer morphisms (projections, lifts, correspondences, dualities) are primary objects. The zeros of ζ (and of L-functions) are characterised by the requirement that they appear as invariant data under all admissible morphisms.
+4. Absorption continues: any property discovered in an application domain that improves the coherence of cross-layer morphisms is absorbed into the relevant layer or into the rules governing morphisms.
+5. The framework remains deliberately incomplete. Completeness would require a closed set of layers and morphisms that force the critical-line location; the present expansion treats that closure as an open, multi-directional research programme rather than a single existence assertion.
+
+### Immediate expansion directions
+
+- Construct explicit functors from categories of L-functions to categories of spectral triples or Floer-theoretic objects and examine the induced constraints on residual data.
+- Develop information-geometric functionals on spaces of residual spectral densities whose gradient flows drive residual measure to zero while preserving arithmetic pair-correlation statistics.
+- Explore multi-scale holographic dictionaries in which the discrete zeros appear as boundary data and residual continuous spectrum is controlled by bulk geometric invariants.
+- Admit new combinatorial generators (beyond greedy harmonic decompositions) and track their spectral signatures across Layers 1–3.
+- Treat observer-dependent or soft-charge projections as morphisms that can be composed with arithmetic purification maps.
+
+### Status of the higher-abstraction expansion
+
+The framework is now an open multi-layer architecture whose internal consistency conditions are required to reproduce the arithmetic zeros. Reduction to any single classical open problem is suspended. Expansion, cross-layer correspondence, and absorption of new structural properties are the active modes of development. The location of the non-trivial zeros remains an open structural question inside this architecture; no claim of resolution is made.
+
+Further cycles should continue the expansion: introduce new layers or new morphisms, absorb properties from additional domains, and strengthen cross-layer consistency requirements without collapsing the residual difficulty onto a previously named open problem.
