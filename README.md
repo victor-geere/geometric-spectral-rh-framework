@@ -570,3 +570,33 @@ both of which remain unproved for kernels whose weights are tied to the arithmet
 - No claim is made that a fixed point of T with ρ_* = 0 has been shown to exist, nor that the Riemann Hypothesis has been proved. The location of the non-trivial zeros remains open.
 
 Further work may concentrate on quantitative continuity estimates for the residual extraction step, or on exhibiting a Lyapunov functional that decreases under T and vanishes only when residual mass is zero.
+
+---
+
+## Research Questions on the Finite SAT Solutions
+
+**Date: 14 August 2026**
+
+Cadical reports that the finite instances Φ^⋆_{N,M,K} (and the corresponding finite-rank fixed points of the truncations of T) are satisfiable for the parameters so far examined. The following ten questions are recorded for systematic investigation of those finite solutions. They do not claim to close the infinite gaps; they organise the next empirical and theoretical probes of the models that exist.
+
+1. For a fixed reflective depth N, how does the set of residual indices that remain allowed to be non-zero before the final fixpoint scale with the number of included zeros K?
+
+2. Do the Cadical models exhibit any systematic preference for which residual components vanish earliest as the reflective depth increases?
+
+3. When two different geometric generators (e.g., greedy versus tropical) are used to build the finite-rank kernels, do the resulting SAT models produce pure-point masses at the same approximate locations?
+
+4. Is there a critical residual-count M_c(K) beyond which Φ^⋆_{N,M,K} becomes unsatisfiable for every reflective depth N?
+
+5. In the satisfying assignments, how tightly do the realised pure-point locations correlate with the known ordinates of the first K non-trivial zeros of Ξ?
+
+6. Can the finite models be chained—i.e., can a model for parameters (N,M,K) be extended to a model for (N,M,K+1) by adding only a bounded number of new clauses and variables?
+
+7. Does the presence or absence of the novel forcing clauses change the minimal reflective depth required for residual vanishing, and by how much?
+
+8. When the purification biconditional is included as an exact constraint on a discrete sample of s-values, does the satisfiability region in the (N,M,K)-space shrink, expand, or remain essentially unchanged?
+
+9. Are there satisfying assignments in which residual mass is driven to zero while the pure-point support fails to match any initial segment of the actual zeros of Ξ? If so, what distinguishes those “spurious” models from the arithmetic ones?
+
+10. For the finite-rank fixed points of the truncations of T, does the coherence functional evaluated on the residual density decrease monotonically with reflective depth inside every Cadical model, or are there oscillations?
+
+These questions are to be answered by further Cadical runs, model extraction, and comparison against the known zeros of Ξ. They remain internal to the finite regime; the analytic lifts to infinity stay open.
