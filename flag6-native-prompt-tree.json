@@ -1,0 +1,89 @@
+{
+  "framework": "geometric-spectral-rh-framework",
+  "target_language": "Rust",
+  "version": "1.0.0-flag6-native",
+  "title": "Flag 6 Native Infinity Implementation Prompt Tree",
+  "description": "Prompt tree that generates a Rust implementation of Flag 6 stated with native infinity: existence of a tempered positive measure μ on ℝ whose pure-point support is exactly the set of all non-trivial zeros of Ξ and whose absolutely continuous part vanishes. The implementation constructs approximations, certificates, and verification infrastructure; it does not claim to have proved existence.",
+  "flag6_native_statement": "There exists a tempered positive measure μ on ℝ such that (1) the support of the pure-point part of μ is exactly {Im ρ : Ξ(ρ)=0, Re ρ = 1/2} and (2) the absolutely continuous part of μ is the zero measure.",
+  "honesty_boundary": "Infinity is native (set-theoretic). The Rust code realises finite and constructive approximations, spectral data structures, and certificate traits. A completed proof of existence remains an open analytic problem; the generated code must never assert that Flag 6 has been captured solely by computation.",
+  "root": {
+    "id": "flag6-native-root",
+    "title": "Flag 6 Native — Tempered Measure with Exact Zero Support and Vanishing Residual",
+    "prompt": "Implement a Rust crate that realises the native form of Flag 6. Core obligation: provide data structures and algorithms for tempered measures on ℝ, a representation of the non-trivial zeros of Ξ, pure-point support matching, residual (absolutely continuous) mass measurement, and certificate traits that would, if discharged, constitute a proof of existence of the required measure μ. All computational work produces approximations or finite certificates; the existence claim itself stays open until an analytic proof is supplied.",
+    "children": [
+      {
+        "id": "measure",
+        "title": "Tempered Measure Data Structures",
+        "prompt": "Define a trait TemperedMeasure with methods:\n- total_mass_against_weight(weight: fn(f64)->f64) -> f64  (for weight 1/(1+t²))\n- pure_point_part() -> PurePointSpectrum\n- absolutely_continuous_density() -> Option<ContinuousDensity>\n- is_tempered() -> bool\n\nProvide at least two concrete implementations:\n1. AtomicMeasure — finite or countable supported pure-point measure (for approximations).\n2. MixedMeasure — pure-point plus an absolutely continuous density given by a numerical function or spline.\n\nAll measures must enforce the temperedness condition ∫ d|μ|(t)/(1+t²) < ∞.",
+        "children": [
+          {
+            "id": "measure-pure-point",
+            "title": "PurePointSpectrum",
+            "prompt": "Struct PurePointSpectrum { locations: Vec<f64>, masses: Vec<f64> }. Methods: support(), total_mass(), truncate_to_height(T: f64), distance_to_known_zeros(known: &[f64]) -> f64. Locations are interpreted as imaginary parts on the critical line."
+          },
+          {
+            "id": "measure-ac",
+            "title": "ContinuousDensity / Residual",
+            "prompt": "Trait or struct for an absolutely continuous density ρ(t). Method residual_mass(weight) -> f64. A density is considered vanishing when residual_mass is below a configurable numerical tolerance for practical checks; exact vanishing is a mathematical statement, not a floating-point one."
+          }
+        ]
+      },
+      {
+        "id": "zeros",
+        "title": "Non-Trivial Zeros of Ξ",
+        "prompt": "Provide a ZeroOracle trait:\n- known_zeros_up_to(height: f64) -> Vec<f64>  (imaginary parts of known non-trivial zeros)\n- is_known_zero(im: f64, tol: f64) -> bool\n\nImplement a concrete oracle that can load tabulated zeros (e.g. from a file or a well-known dataset of the first N zeros of ζ/Ξ) and, optionally, call an external high-precision zeta routine for verification. The oracle represents the infinite set only by finite initial segments; the full set remains an analytic object.",
+        "children": [
+          {
+            "id": "zeros-xi",
+            "title": "XiFunction Interface",
+            "prompt": "Minimal interface to the completed xi-function Ξ(s) sufficient to evaluate or verify zeros on the critical line. Use an external library or a placeholder that documents the required analytic properties (functional equation, entire function of order 1, etc.)."
+          }
+        ]
+      },
+      {
+        "id": "support-matching",
+        "title": "Pure-Point Support Matching",
+        "prompt": "Implement a function match_pure_point_support(μ: &impl TemperedMeasure, oracle: &impl ZeroOracle, height: f64) -> SupportMatchReport that:\n- extracts the pure-point locations of μ up to the given height,\n- compares them with the known zeros up to that height,\n- reports Hausdorff distance, missing zeros, and spurious locations.\n\nExact equality of supports on the whole line is the infinite statement; the implementation only ever checks finite height truncations."
+      },
+      {
+        "id": "residual-vanishing",
+        "title": "Residual Vanishing Checks",
+        "prompt": "Implement residual_vanishes(μ: &impl TemperedMeasure, tol: f64) -> bool for numerical checks, and a trait ExactResidualVanishing { fn residual_is_identically_zero(&self) -> Certificate; } where Certificate is an enum { Proven, NumericalEvidence{tol}, Unknown }. Only Proven corresponds to the mathematical claim in Flag 6; the other variants are computational."
+      },
+      {
+        "id": "construction",
+        "title": "Candidate Measure Construction",
+        "prompt": "Provide constructors that build candidate tempered measures from:\n- the first K known zeros (atomic pure-point measure),\n- finite-rank spectral measures coming from the geometric kernels / helix / Φ approximations already present in the framework,\n- any future operator whose eigenvalues are conjectured to track the zeros.\n\nEach constructor returns a MixedMeasure or AtomicMeasure together with a provenance record (which zeros, which truncation parameters). These are the concrete objects on which support matching and residual checks are run.",
+        "children": [
+          {
+            "id": "construction-from-phi",
+            "title": "Lift from Finite Φ / Helix Models",
+            "prompt": "Bridge the earlier CNF / helix machinery: convert a Cadical model of Φ^⋆_{N,M,K} or a helical digit string into an AtomicMeasure whose pure-point locations are the realised zeros and whose residual mass is taken from the residual variables of the model. This supplies a steady stream of candidate measures from the finitary side."
+          }
+        ]
+      },
+      {
+        "id": "certificates",
+        "title": "Existence Certificates (Native Flag 6)",
+        "prompt": "Define the trait that would discharge Flag 6:\n\ntrait Flag6Certificate {\n    /// Returns a tempered measure that is claimed to satisfy both conditions of Flag 6.\n    fn measure(&self) -> &dyn TemperedMeasure;\n    /// Proof or reference that pure-point support equals the full set of non-trivial zeros.\n    fn pure_point_support_exact(&self) -> SupportProof;\n    /// Proof or reference that the absolutely continuous part is identically zero.\n    fn residual_vanishes_identically(&self) -> ResidualProof;\n}\n\nenum SupportProof { Analytic{ref: String}, FiniteHeight{height: f64}, Absent }\nenum ResidualProof { Analytic{ref: String}, Numerical{tol: f64}, Absent }\n\nA complete capture of Flag 6 is a value of a type implementing Flag6Certificate in which both proofs are Analytic. The generated crate must ship only with Absent or FiniteHeight/Numerical defaults and must document that supplying Analytic proofs is equivalent to solving the open problem.",
+        "children": [
+          {
+            "id": "certificates-hooks",
+            "title": "Hooks for Analytic Input",
+            "prompt": "Provide clear extension points (traits or callback registrations) where an external analytic argument—uniform Mourre estimate, tightness + compactness, continuity of the residual extraction step of T, or a Lyapunov functional—can be attached and thereby upgrade a Numerical/FiniteHeight certificate to Analytic. These hooks are the only route by which Flag 6 can be captured inside the crate."
+          }
+        ]
+      },
+      {
+        "id": "orchestrator",
+        "title": "Flag 6 Native Orchestrator",
+        "prompt": "Implement Flag6NativeOrchestrator that:\n1. loads or constructs candidate measures (from known zeros, from Φ/helix models, from operator approximations),\n2. runs support matching up to configurable heights,\n3. runs residual vanishing checks,\n4. queries any registered Flag6Certificate,\n5. emits a structured report stating:\n   - which finite approximations succeed,\n   - whether any Analytic certificate is present,\n   - that the existence of μ with the exact properties of Flag 6 remains open unless an Analytic certificate has been supplied.\n\nNever print a claim that the Riemann Hypothesis is proved unless both SupportProof and ResidualProof are Analytic."
+      },
+      {
+        "id": "documentation",
+        "title": "Documentation of Native Infinity Boundary",
+        "prompt": "In crate-level documentation state:\n\nFlag 6 (native) = existence of a tempered measure μ on ℝ whose pure-point support is exactly the infinite set of non-trivial zeros of Ξ and whose residual continuous part is identically zero.\n\nInfinity is a first-class object of the ambient set theory. The Rust implementation only ever manipulates finite approximations, numerical certificates, and hooks for analytic proofs. Capturing Flag 6 requires discharging the Analytic variants of SupportProof and ResidualProof; computation alone cannot do so.\n\nThis boundary must remain visible to every user of the crate."
+      }
+    ]
+  }
+}
