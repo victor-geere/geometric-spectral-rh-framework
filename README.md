@@ -128,3 +128,60 @@ The existence of such operators remains the single open assertion. All geometric
 - No claim is made that the existence assertion has been settled. The Riemann Hypothesis and its analogues remain open.
 
 This extension is recorded for frontier exploration. Further concrete constructions that realise the abstracted data are the next useful step.
+
+---
+
+## Second Abstraction Cycle (Deeper Compression + Expanded Absorption)
+
+**Date: 14 August 2026 (cycle 2)**
+
+### Further compression of the core
+
+The framework is now reduced to three minimal requirements that together imply the location of all non-trivial zeros on the critical line:
+
+1. **Existence of a self-adjoint operator H** (or family H_χ) on a suitable scale of Hilbert spaces whose pure-point spectrum is exactly the set of non-trivial zeros of Ξ (or of the corresponding completed L-functions).
+2. **Vanishing of residual continuous spectrum**, enforced either by a residual spectral density ρ_res ≡ 0 almost everywhere or by a positivity criterion (Weil-type or equivalent) that forces P_res = 0.
+3. **Quantitative Mourre control** (relative bounds + positive commutator estimates, uniform in any continuous parameters) that guarantees the residual spectrum, if present, is purely absolutely continuous with Hölder density and cannot accumulate residual eigenvalues.
+
+All prior geometric, combinatorial, thermodynamic, or physical layers serve only as candidate sources for constructing objects that satisfy (1)–(3). They are not part of the logical core.
+
+### Additional domains of application and absorbed properties
+
+#### Random matrix theory and pair correlation
+
+- GUE / CUE statistics, pair-correlation forms, and form-factor calculations supply model residual spectral measures and diagnostics for whether a candidate operator’s residual density is consistent with vanishing.
+- Absorbed: the use of form factors and n-point correlations as quantitative tests that a residual continuous spectrum is absent or has measure zero; translation of Montgomery-pair-correlation type statements into statements about the residual projection of H.
+
+#### Adelic and noncommutative geometry
+
+- Connes-style global trace formulae on the adèle class space, and related noncommutative spectral triples, provide candidate realisations of H whose spectrum is forced by the explicit formula.
+- Absorbed: the global trace identity as a possible verification tool for the pure-point spectrum once residual continuous spectrum is controlled; the language of spectral triples as a systematic way to encode both the arithmetic side and the conjugate operators.
+
+#### Integrable systems and isomonodromic deformations
+
+- Spectral curves, monodromy data, and isomonodromic tau-functions yield families of operators whose eigenvalues move under deformation while preserving certain positivity or reality properties.
+- Absorbed: deformation arguments that keep residual continuous spectrum empty once it is empty for a base case; the use of isomonodromic or integrable flows as candidate approximating sequences H_N.
+
+#### Conformal field theory and modular spectral data
+
+- Characters, modular forms, and spectral decompositions of vertex-operator-algebra modules supply additional arithmetic generating functions and candidate self-adjoint realisations.
+- Absorbed: modular invariance and character positivity as potential sources of the required positivity criteria that force residual vanishing.
+
+#### Geometric analysis of residual spectra
+
+- Results on the structure of continuous spectrum for Dirac-type or Laplace-type operators on non-compact or singular spaces, and on the Hölder regularity of spectral densities, refine the residual-control toolbox.
+- Absorbed: sharper statements about the possible Hölder exponents of ρ_res and about the absence of singular continuous spectrum under geometric hypotheses that can be mirrored in the arithmetic setting.
+
+### Refined open assertion after second absorption cycle
+
+RH (and GRH for the relevant families) holds if and only if there exist operators satisfying the three minimal requirements above. The expanded set of domains supplies a larger menu of candidate constructions and of diagnostic tools (form factors, global traces, isomonodromic flows, modular positivity, geometric residual-spectrum analysis). None of these tools currently constitutes a completed construction of the operators. The existence assertion remains open.
+
+### Status after cycle 2
+
+- Logical core further compressed to three requirements.
+- Toolbox enlarged with RMT diagnostics, adelic/noncommutative realisations, integrable deformations, CFT modular data, and refined residual-spectrum analysis.
+- No new open logical gaps introduced.
+- Concrete realisation of the three requirements (or a rigorous non-existence proof) remains the sole remaining task.
+- The Riemann Hypothesis and its analogues remain open.
+
+This second cycle is recorded for continued frontier exploration. The next useful step is any concrete candidate operator (or family) together with a verification plan for the three requirements.
