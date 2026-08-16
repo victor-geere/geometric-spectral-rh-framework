@@ -1,0 +1,4 @@
+# Scientific Python stack required for geometric_dqpt_test.py
+numpy>=1.24
+scipy>=1.10
+mpmath>=1.3

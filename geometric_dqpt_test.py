@@ -11,8 +11,44 @@ This script evaluates the finite objects that appear in the geometric
 argument. It does NOT prove the Riemann Hypothesis; it only supplies
 computational illustrations at practical truncation sizes (N <= 50).
 
-Dependencies: numpy, scipy, mpmath
+Scientific Python stack required:
+    numpy, scipy, mpmath
+
+Install with:
+    pip install -r requirements.txt
+
+or:
+    pip install numpy scipy mpmath
 """
+
+import sys
+
+def _check_scientific_stack():
+    missing = []
+    try:
+        import numpy
+    except ImportError:
+        missing.append("numpy")
+    try:
+        import scipy
+    except ImportError:
+        missing.append("scipy")
+    try:
+        import mpmath
+    except ImportError:
+        missing.append("mpmath")
+    if missing:
+        print("Missing required packages from the scientific Python stack:")
+        for pkg in missing:
+            print(f"  - {pkg}")
+        print()
+        print("Install them with:")
+        print("  pip install -r requirements.txt")
+        print("or:")
+        print("  pip install numpy scipy mpmath")
+        sys.exit(1)
+
+_check_scientific_stack()
 
 import numpy as np
 from mpmath import mp, power, mpc, fabs
@@ -109,7 +145,15 @@ def main():
     print("=" * 76)
     print("Geometric DQPT numerical illustration")
     print("Coherent polygonal sums + residual determinant + Hilbert-Polya")
+    print("Scientific stack: numpy + scipy + mpmath")
     print("=" * 76)
+    print()
+
+    # Show versions
+    import numpy, scipy, mpmath
+    print(f"numpy  {numpy.__version__}")
+    print(f"scipy  {scipy.__version__}")
+    print(f"mpmath {mpmath.__version__}")
     print()
 
     heights = known_zero_heights(6)
@@ -169,7 +213,7 @@ def main():
     print()
     print("These are finite-N illustrations only.")
     print("A rigorous proof is contained in the analytic argument")
-    print("(publication.md), not in any finite numerical check.")
+    print("(publication.md / publication.html), not in any finite numerical check.")
     print("=" * 76)
 
 
